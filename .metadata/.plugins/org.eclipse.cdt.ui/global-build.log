@@ -1,10 +1,24 @@
-17:23:04 **** Incremental Build of configuration Debug for project ASSIGNMENT ****
+19:45:01 **** Incremental Build of configuration Debug for project ASSIGNMENT ****
 make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:108:3: warning: implicit declaration of function 'setTimer1' [-Wimplicit-function-declaration]
+  108 |   setTimer1(5);
+      |   ^~~~~~~~~
+arm-none-eabi-gcc -o "ASSIGNMENT.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\taitr\OneDrive\Documents\MCU\VXL_ASSIGNMENT\ASSIGNMENT\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ASSIGNMENT.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ASSIGNMENT.elf
+ 
 arm-none-eabi-size   ASSIGNMENT.elf 
+arm-none-eabi-objdump -h -S  ASSIGNMENT.elf  > "ASSIGNMENT.list"
 arm-none-eabi-objcopy  -O ihex  ASSIGNMENT.elf  "ASSIGNMENT.hex"
    text	   data	    bss	    dec	    hex	filename
-  10012	     20	   1780	  11812	   2e24	ASSIGNMENT.elf
+  10060	     20	   1788	  11868	   2e5c	ASSIGNMENT.elf
+arm-none-eabi-objcopy  -O binary  ASSIGNMENT.elf  "ASSIGNMENT.bin"
 Finished building: default.size.stdout
  
 Finished building: ASSIGNMENT.hex
+Finished building: ASSIGNMENT.bin
+ 
+ 
+Finished building: ASSIGNMENT.list
  

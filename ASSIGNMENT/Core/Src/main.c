@@ -43,6 +43,7 @@
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 
+
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
@@ -104,7 +105,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   HAL_GPIO_WritePin(GPIOB, ledpa_Pin|led1b_Pin|led2b_Pin|led2a_Pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOA, ledpb_Pin|led1a_Pin, GPIO_PIN_RESET);
-
+  setTimer1(5);
   while (1)
   {
     /* USER CODE END WHILE */

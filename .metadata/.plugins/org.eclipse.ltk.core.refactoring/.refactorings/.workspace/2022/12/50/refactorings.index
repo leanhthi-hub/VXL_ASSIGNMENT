@@ -1,1 +1,7 @@
 1670666190799	Rename resource 'STM32'
+1670672304245	Delete resource 'ASSIGNMENT_PROTEUS/Core/Src/fsm_manual.c'
+1670672309811	Delete resource 'ASSIGNMENT_PROTEUS/Core/Inc/fsm_manual.h'
+1670672312924	Delete resource 'ASSIGNMENT_PROTEUS/Core/Inc/fsm_automatic.h'
+1670672321736	Delete resource 'ASSIGNMENT_PROTEUS/Core/Src/fsm_automatic.c'
+1670672719374	Delete resource 'ASSIGNMENT_PROTEUS/Core/Inc/SOFTWARE_TIMER.h'
+1670672724632	Delete resource 'ASSIGNMENT_PROTEUS/Core/Src/SOFTWARE_TIMER.c'
