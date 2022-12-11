@@ -15,7 +15,7 @@ void SCH_Init(void)
 		current_index_task = 0;
 }
 
-uint32_t SCH_Add_Task ( void (*pFunction)() , uint32_t DELAY, uint32_t PERIOD)
+void SCH_Add_Task ( void (*pFunction)() , uint32_t DELAY, uint32_t PERIOD)
 {
 	if(current_index_task < SCH_MAX_TASKS)
 	{
@@ -26,9 +26,9 @@ uint32_t SCH_Add_Task ( void (*pFunction)() , uint32_t DELAY, uint32_t PERIOD)
 		SCH_tasks_G[current_index_task].RunMe = 0;
 //		SCH_tasks_G[current_index_task].TaskID = current_index_task;
 		current_index_task++;
-		return current_index_task-1;
+//		return current_index_task-1;
 	}
-	return -1;
+//	return -1;
 }
 
 void SCH_Update(void)
@@ -66,11 +66,11 @@ void SCH_Dispatch_Tasks(void)
 	}
 }
 
-uint8_t SCH_Delete_Task(const uint8_t TASK_INDEX)//in array index is taskid
+void SCH_Delete_Task(const uint8_t TASK_INDEX)//in array index is taskid
 {
    if(TASK_INDEX >= current_index_task)
    {
-	   return -1;
+	   return ;
    }
    else
    {
@@ -83,6 +83,6 @@ uint8_t SCH_Delete_Task(const uint8_t TASK_INDEX)//in array index is taskid
 	   }
 
 	   current_index_task--;
-	   return 1;
+//	   return ;
    }
 }

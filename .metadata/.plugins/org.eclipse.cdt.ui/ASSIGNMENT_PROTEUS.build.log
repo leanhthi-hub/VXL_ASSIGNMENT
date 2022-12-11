@@ -1,10 +1,6 @@
-19:44:19 **** Incremental Build of configuration Debug for project ASSIGNMENT_PROTEUS ****
+19:33:54 **** Incremental Build of configuration Debug for project ASSIGNMENT_PROTEUS ****
 make -j8 all 
-arm-none-eabi-gcc "../Core/Src/fsm.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103x6 -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/fsm.d" -MT"Core/Src/fsm.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/fsm.o"
-../Core/Src/fsm.c: In function 'fsm_automatic_run3':
-../Core/Src/fsm.c:127:6: warning: implicit declaration of function 'Print_HELLO' [-Wimplicit-function-declaration]
-  127 |      Print_HELLO();
-      |      ^~~~~~~~~~~
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103x6 -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
 arm-none-eabi-gcc -o "ASSIGNMENT_PROTEUS.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\taitr\OneDrive\Documents\MCU\VXL_ASSIGNMENT\ASSIGNMENT_PROTEUS\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ASSIGNMENT_PROTEUS.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: ASSIGNMENT_PROTEUS.elf
  
@@ -12,16 +8,16 @@ arm-none-eabi-size   ASSIGNMENT_PROTEUS.elf
 arm-none-eabi-objdump -h -S  ASSIGNMENT_PROTEUS.elf  > "ASSIGNMENT_PROTEUS.list"
 arm-none-eabi-objcopy  -O ihex  ASSIGNMENT_PROTEUS.elf  "ASSIGNMENT_PROTEUS.hex"
    text	   data	    bss	    dec	    hex	filename
-  14756	    152	   1832	  16740	   4164	ASSIGNMENT_PROTEUS.elf
+  15844	    152	   2640	  18636	   48cc	ASSIGNMENT_PROTEUS.elf
 arm-none-eabi-objcopy  -O binary  ASSIGNMENT_PROTEUS.elf  "ASSIGNMENT_PROTEUS.bin"
 Finished building: default.size.stdout
  
 Finished building: ASSIGNMENT_PROTEUS.hex
 Finished building: ASSIGNMENT_PROTEUS.bin
  
- 
 Finished building: ASSIGNMENT_PROTEUS.list
  
+ 
 
-19:44:21 Build Finished. 0 errors, 1 warnings. (took 1s.556ms)
+19:33:56 Build Finished. 0 errors, 0 warnings. (took 1s.714ms)
 

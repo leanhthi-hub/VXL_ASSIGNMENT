@@ -7,6 +7,7 @@
 
 #ifndef INC_SCHEDULER_H_
 #define INC_SCHEDULER_H_
+#include "main.h"
 #include <stdint.h>
 #include "global.h"
 #include <stdio.h>
@@ -24,9 +25,9 @@ typedef struct
 #define TIMER_CYCLE		10
 
 void SCH_Init(void);
-uint32_t SCH_Add_Task( void (*pFunction)(), uint32_t DELAY, uint32_t PERIOD);
+void SCH_Add_Task( void (*pFunction)(), uint32_t DELAY, uint32_t PERIOD);
 void SCH_Update(void);
 void SCH_Dispatch_Tasks(void);
-uint8_t SCH_Delete_Task(const uint8_t TASK_INDEX);
+void SCH_Delete_Task(const uint8_t TASK_INDEX);
 
 #endif /* INC_SCHEDULER_H_ */

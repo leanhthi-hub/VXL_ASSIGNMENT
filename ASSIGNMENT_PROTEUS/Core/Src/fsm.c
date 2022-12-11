@@ -7,6 +7,7 @@
 
 
 #include "fsm.h"
+#include "main.h"
 //HAL_GPIO_WritePin(GPIOB, ledpa_Pin|led1b_Pin|led2b_Pin|led2a_Pin, GPIO_PIN_RESET);
 //HAL_GPIO_WritePin(GPIOA, ledpb_Pin|led1a_Pin, GPIO_PIN_RESET);
 void toogleRed(){
@@ -66,9 +67,6 @@ void fsm_automatic_run1(){
 				setTimer1(RED_TIME);
 				timer=RED_TIME/100;
 			}
-
-
-
 			break;
 		default:
 			break;
@@ -89,8 +87,6 @@ void fsm_automatic_run2(){
 				setTimer2(GREEN_TIME);
 				timer2=GREEN_TIME/100;
 			}
-
-
 			break;
 		case AUTO_GREEN:
 			toogleGreen1();
@@ -118,16 +114,19 @@ void fsm_automatic_run2(){
 	}
 }
 
-#include "fsm.h"
-
 void fsm_automatic_run3(){
 	switch (status3	) {
 		case RUNNING:
 			if( timer0_flag == 1) {
-					Print_HELLO();
-					  timer--;
-					  timer2--;
-					  setTimer0 (100) ;
+				Print_Time(timer);
+				timer--;
+				timer2--;
+				setTimer0 (100) ;
+//					Print_HELLO();
+
+
+
+
 				  }
 			if(button_flag[0]==1){
 				button_flag[0]=0;
