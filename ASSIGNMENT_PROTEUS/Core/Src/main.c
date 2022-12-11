@@ -76,11 +76,18 @@ void Toggle_led()
 {
 	HAL_GPIO_TogglePin(GPIOA, Led_1_Pin);
 }
-void Print_Time(int time)
+
+void Print_Time()
 {
 	char str[30];
-	int temp = time;
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time: %d\r", temp), 1000);
+	int temp;
+	temp=timer;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time1: %d\r", temp), 1000);
+	temp = timer2;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time2: %d\r", temp), 1000);
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "----------------------------\r"), 1000);
+//	HAL_UART_Transmit(&huart2, (void*)str, sprintf("%c%c%c%c",0x1B,0x5B,0x32,0x4A), 1000);
+
 }
 /* USER CODE END PV */
 
@@ -148,15 +155,19 @@ int main(void)
   setTimer2(3);
   setTimer3(4);
 
-  SCH_Add_Task(timerRun0, 0, 10);
-  SCH_Add_Task(timerRun1, 0, 10);
-  SCH_Add_Task(timerRun2, 0, 10);
-  SCH_Add_Task(timerRun3, 0, 10);
+  SCH_Add_Task(timerRun0, 10, 10);
+  SCH_Add_Task(timerRun1, 10, 10);
+  SCH_Add_Task(timerRun2, 10, 10);
+  SCH_Add_Task(timerRun3, 10, 10);
 
-  SCH_Add_Task(button_reading, 0, 10);
-  SCH_Add_Task(fsm_automatic_run1, 0, 10);
-  SCH_Add_Task(fsm_automatic_run2, 0, 10);
-  SCH_Add_Task(fsm_automatic_run3, 0, 10);
+  SCH_Add_Task(button_reading, 10, 10);
+  SCH_Add_Task(fsm_automatic_run1, 10, 10);
+  SCH_Add_Task(fsm_automatic_run2, 10, 10);
+  SCH_Add_Task(fsm_automatic_run3, 10, 10);
+
+  SCH_Add_Task(Print_Time, 10, 800);
+//  SCH_Add_Task(timerRun0, 0, 10);
+//  SCH_Add_Task(timerRun0, 0, 10);
   while (1)
   {
 //		 fsm_automatic_run1();

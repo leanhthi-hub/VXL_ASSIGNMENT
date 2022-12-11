@@ -118,15 +118,10 @@ void fsm_automatic_run3(){
 	switch (status3	) {
 		case RUNNING:
 			if( timer0_flag == 1) {
-				Print_Time(timer);
 				timer--;
 				timer2--;
 				setTimer0 (100) ;
 //					Print_HELLO();
-
-
-
-
 				  }
 			if(button_flag[0]==1){
 				button_flag[0]=0;
@@ -146,6 +141,8 @@ void fsm_automatic_run3(){
 
 			break;
 		case MAN_RED:
+//			Print_Time(timer);
+//			Print_Time(timer2);
 			toogleRed();
 			toogleRed1();
 			if(timer2>99)timer2=0;
@@ -157,7 +154,7 @@ void fsm_automatic_run3(){
 				status3=MAN_GREEN;
 			}
 			if(button_flag[1]==1){
-				Print_HELLO();
+//				Print_HELLO();
 				button_flag[1]=0;
 				timer2++;
 			}
@@ -171,6 +168,8 @@ void fsm_automatic_run3(){
 			}
 			break;
 		case MAN_GREEN:
+//			Print_Time(timer);
+//			Print_Time(timer2);
 			toogleGreen();
 			toogleGreen1();
 			if(timer2>99)timer2=0;
@@ -198,6 +197,8 @@ void fsm_automatic_run3(){
 
 			break;
 		case MAN_YELLOW:
+//			Print_Time(timer);
+//			Print_Time(timer2);
 			toogleYellow();
 			toogleYellow1();
 			if(timer2>99)timer2=0;
