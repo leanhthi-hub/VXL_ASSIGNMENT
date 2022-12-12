@@ -76,9 +76,11 @@ void Toggle_led()
 {
 	HAL_GPIO_TogglePin(GPIOA, Led_1_Pin);
 }
-void Count_Down()
-{
-
+void Print_TimeOut(int abc){
+	char str[30];
+	int temp;
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "timeout: %d\r", temp), 1000);
 }
 void Print_Time()
 {
@@ -163,7 +165,7 @@ int main(void)
   SCH_Add_Task(timerRun2, 20, 10);
   SCH_Add_Task(timerRun3, 20, 10);
 
-  SCH_Add_Task(Print_Time, 10, 900);
+  SCH_Add_Task(Print_Time, 10, 990);
 
   SCH_Add_Task(button_reading, 10, 10);
 

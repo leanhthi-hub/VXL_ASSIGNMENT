@@ -24,6 +24,9 @@
 #define MAN_YELLOW 13
 
 
+#define HAND_RED 21
+#define HAND_GREEN 22
+#define HAND_YELLOW 23
 
 
 extern int timer;

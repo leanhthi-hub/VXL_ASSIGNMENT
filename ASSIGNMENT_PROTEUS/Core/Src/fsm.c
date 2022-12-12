@@ -40,16 +40,16 @@ void fsm_automatic_run1(){
 			status1 = AUTO_RED;
 			timer = RED_TIME/100;
 			setTimer1(RED_TIME);
+
 			break;
 		case AUTO_RED:
 			toogleRed();
+//			SCH_Add_Task(pFunction, DELAY, PERIOD)
 			if(timer1_flag==1){
 				status1 = AUTO_GREEN;
 				setTimer1(GREEN_TIME);
 				timer=GREEN_TIME/100;
 			}
-
-
 			break;
 		case AUTO_GREEN:
 			toogleGreen();
@@ -132,8 +132,33 @@ void fsm_automatic_run3(){
 				status3=MAN_RED;
 				timer2=RED_TIME/100;
 			}
+			if(button_flag[1]==1)
+			{
+				button_flag[1] = 0;
+				Print_HELLO();
+				switch (status1) {
+					case AUTO_RED:
+						status3 = HAND_GREEN;
+						break;
+					case AUTO_YELLOW:
+						status3 = HAND_RED;
+						break;
+					case AUTO_GREEN:
+						status3 = HAND_YELLOW;
+						break;
+					default:
+						break;
+				}
+				setTimer0 (100);
+				setTimer1(1000);
+				timer=10;
+				status1 = Waiting;
+				status2 = Waiting;
+
+			}
 			if(button_flag[3]==1){
 				button_flag[3]=0;
+
 				Print_HELLO();
 			}
 			break;
@@ -211,6 +236,7 @@ void fsm_automatic_run3(){
 			toogleYellow();
 			toogleYellow1();
 			if(timer2>99)timer2=0;
+			if(timer2<3)timer2=3;
 			YELLOW_TIME=timer2*100;
 
 			timer=03;
@@ -233,6 +259,71 @@ void fsm_automatic_run3(){
 //			}
 
 
+			break;
+		case HAND_RED:
+			if(timer0_flag == 1) {
+				timer--;
+//				timer2--;
+				Print_TimeOut(timer);
+				setTimer0 (100) ;
+			//					Print_HELLO();
+			}
+			if(timer1_flag == 1){
+				status3=INIT;
+			}
+			if(button_flag[1]==1){
+				button_flag[1]=0;
+				timer=10;
+				status3=HAND_GREEN;
+				setTimer0 (100);
+				setTimer1(1000);
+			}
+
+			 toogleRed();
+			break;
+		case HAND_GREEN:
+
+			if(timer0_flag == 1) {
+				timer--;
+//				timer2--;
+				Print_TimeOut(timer);
+				setTimer0 (100) ;
+			//					Print_HELLO();
+				}
+			if(timer1_flag == 1){
+				status3=INIT;
+
+			}
+			if(button_flag[1]==1){
+				button_flag[1]=0;
+				status3=HAND_YELLOW;
+				timer=10;
+				setTimer0 (100);
+				setTimer1(1000);
+			}
+//			toogleRed();
+			toogleGreen();
+			break;
+		case HAND_YELLOW:
+			if(timer0_flag == 1) {
+				timer--;
+//				timer2--;
+				Print_TimeOut(timer);
+				setTimer0 (100) ;
+			//					Print_HELLO();
+				}
+			if(timer1_flag == 1){
+				status3=INIT;
+			}
+//			 toogleRed();
+			if(button_flag[1]==1){
+				button_flag[1]=0;
+				status3=HAND_RED;
+				timer=10;
+				setTimer0 (100);
+				setTimer1(1000);
+			}
+			toogleYellow();
 			break;
 
 		default:
