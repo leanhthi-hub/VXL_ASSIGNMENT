@@ -39,12 +39,14 @@ int second,second1;
 
 int status1 = Waiting;
 int status2 = Waiting;
+int status4 = Waiting;
 int status3 = INIT;
 int RED_TIME=1000;
 int timer=0;
 int GREEN_TIME=700;
 int timer2=0;
 int YELLOW_TIME=300;
+int timer3=0;
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -81,6 +83,12 @@ void Print_TimeOut(int abc){
 	int temp;
 	temp=abc;
 	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "timeout: %d\r", temp), 1000);
+}
+void Print_TimeP(int abc){
+	char str[30];
+	int temp;
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_P: %d\r", temp), 1000);
 }
 void Print_Time()
 {
@@ -172,6 +180,7 @@ int main(void)
   SCH_Add_Task(fsm_automatic_run1, 20, 10);
   SCH_Add_Task(fsm_automatic_run2, 20, 10);
   SCH_Add_Task(fsm_automatic_run3, 20, 10);
+  SCH_Add_Task(fsm_p, 20, 10);
 
 
 //  SCH_Add_Task(timerRun0, 0, 10);

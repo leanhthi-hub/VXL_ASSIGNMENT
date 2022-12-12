@@ -34,6 +34,18 @@ void toogleYellow1(){
 	HAL_GPIO_WritePin(GPIOB,led2a_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(GPIOB,led2b_Pin, GPIO_PIN_RESET);
 }
+void redP(){
+	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_SET);
+}
+void greenP(){
+	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_RESET);
+}
+void offP(){
+	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_SET);
+}
 void fsm_automatic_run1(){
 	switch (status1	) {
 		case INIT:
@@ -115,7 +127,34 @@ void fsm_automatic_run2(){
 			break;
 	}
 }
-
+void fsm_p(){
+	switch (status4) {
+		case INIT:
+			status4=Waiting;
+//			Print_HELLO();
+			break;
+		case Waiting:
+//			Print_HELLO();
+			offP();
+			break;
+		case P_RED://----------------------------------------
+			redP();
+//			Print_HELLO();
+			if(timer3_flag==1){
+				setTimer3(RED_TIME);
+				status4=P_GREEN;
+				break;
+				}
+		case P_GREEN:
+			greenP();
+			if(timer3_flag==1){
+				status4=INIT;
+			}
+			break;
+		default:
+			break;
+	}
+}
 void fsm_automatic_run3(){
 	switch (status3	) {
 		case RUNNING:
@@ -158,7 +197,21 @@ void fsm_automatic_run3(){
 			}
 			if(button_flag[3]==1){
 				button_flag[3]=0;
-
+				if(status1== AUTO_RED){//oke
+					status4=P_GREEN;
+					setTimer3(timer*100);
+					timer3=timer;
+				}
+				if(status1== AUTO_GREEN){//notoke
+					status4=P_RED;
+					setTimer3(timer*100+YELLOW_TIME);
+					timer3=timer+YELLOW_TIME/100;
+				}
+				if(status1== AUTO_YELLOW){//notoke
+					status4=P_RED;
+					setTimer3(timer*100);
+					timer3=timer;
+				}
 				Print_HELLO();
 			}
 			break;
@@ -166,6 +219,7 @@ void fsm_automatic_run3(){
 		case INIT:
 			status1=INIT;
 			status2=INIT;
+			status4=Waiting;
 			status3=RUNNING;
 
 

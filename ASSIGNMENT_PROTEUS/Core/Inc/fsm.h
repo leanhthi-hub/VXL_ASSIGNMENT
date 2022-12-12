@@ -15,6 +15,7 @@
 void fsm_automatic_run1();
 void fsm_automatic_run2();
 void fsm_automatic_run3();
+void fsm_p();
 void toogleRed();
 void toogleGreen();
 void toogleYellow();

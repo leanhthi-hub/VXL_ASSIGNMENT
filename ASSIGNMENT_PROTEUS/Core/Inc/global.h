@@ -29,12 +29,18 @@
 #define HAND_YELLOW 23
 
 
+#define P_RED 31
+#define P_GREEN 32
+
+
 extern int timer;
 extern int timer2;
+extern int timer3;
 
 extern int status1;
 extern int status2;
 extern int status3;
+extern int status4;
 
 extern int RED_TIME;
 extern int GREEN_TIME;
