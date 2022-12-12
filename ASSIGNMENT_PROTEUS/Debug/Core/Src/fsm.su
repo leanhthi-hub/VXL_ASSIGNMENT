@@ -5,5 +5,5 @@ fsm.c:25:6:toogleRed1	8	static
 fsm.c:29:6:toogleGreen1	8	static
 fsm.c:33:6:toogleYellow1	8	static
 fsm.c:37:6:fsm_automatic_run1	8	static
-fsm.c:77:6:fsm_automatic_run2	8	static
-fsm.c:117:6:fsm_automatic_run3	8	static
+fsm.c:78:6:fsm_automatic_run2	8	static
+fsm.c:119:6:fsm_automatic_run3	8	static
