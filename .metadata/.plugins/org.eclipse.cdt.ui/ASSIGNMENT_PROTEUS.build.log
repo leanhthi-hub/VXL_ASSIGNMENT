@@ -1,10 +1,46 @@
-16:49:59 **** Incremental Build of configuration Debug for project ASSIGNMENT_PROTEUS ****
+17:55:36 **** Incremental Build of configuration Debug for project ASSIGNMENT_PROTEUS ****
 make -j8 all 
+arm-none-eabi-gcc "../Core/Src/fsm.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103x6 -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/fsm.d" -MT"Core/Src/fsm.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/fsm.o"
+../Core/Src/fsm.c: In function 'fsm_p':
+../Core/Src/fsm.c:147:5: warning: implicit declaration of function 'Print_Mode' [-Wimplicit-function-declaration]
+  147 |     Print_Mode(P_RED);
+      |     ^~~~~~~~~~
+../Core/Src/fsm.c:148:5: warning: implicit declaration of function 'Print_TimeOut' [-Wimplicit-function-declaration]
+  148 |     Print_TimeOut(timer3);
+      |     ^~~~~~~~~~~~~
+../Core/Src/fsm.c: In function 'fsm_automatic_run3':
+../Core/Src/fsm.c:185:5: warning: implicit declaration of function 'Print_Time1' [-Wimplicit-function-declaration]
+  185 |     Print_Time1(timer);
+      |     ^~~~~~~~~~~
+../Core/Src/fsm.c:186:5: warning: implicit declaration of function 'Print_Time2' [-Wimplicit-function-declaration]
+  186 |     Print_Time2(timer2);
+      |     ^~~~~~~~~~~
+../Core/Src/fsm.c:207:5: warning: implicit declaration of function 'Print_HELLO' [-Wimplicit-function-declaration]
+  207 |     Print_HELLO();
+      |     ^~~~~~~~~~~
+../Core/Src/fsm.c:260:4: warning: implicit declaration of function 'Print_ERROR' [-Wimplicit-function-declaration]
+  260 |    Print_ERROR();
+      |    ^~~~~~~~~~~
+../Core/Src/fsm.c:277:5: warning: implicit declaration of function 'Print_Time' [-Wimplicit-function-declaration]
+  277 |     Print_Time(timer2);
+      |     ^~~~~~~~~~
+arm-none-eabi-gcc -o "ASSIGNMENT_PROTEUS.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\taitr\OneDrive\Documents\MCU\VXL_ASSIGNMENT\ASSIGNMENT_PROTEUS\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ASSIGNMENT_PROTEUS.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: ASSIGNMENT_PROTEUS.elf
+ 
 arm-none-eabi-size   ASSIGNMENT_PROTEUS.elf 
+arm-none-eabi-objdump -h -S  ASSIGNMENT_PROTEUS.elf  > "ASSIGNMENT_PROTEUS.list"
+arm-none-eabi-objcopy  -O ihex  ASSIGNMENT_PROTEUS.elf  "ASSIGNMENT_PROTEUS.hex"
    text	   data	    bss	    dec	    hex	filename
-  17440	    152	   2640	  20232	   4f08	ASSIGNMENT_PROTEUS.elf
+  17436	    152	   2640	  20228	   4f04	ASSIGNMENT_PROTEUS.elf
+arm-none-eabi-objcopy  -O binary  ASSIGNMENT_PROTEUS.elf  "ASSIGNMENT_PROTEUS.bin"
 Finished building: default.size.stdout
  
+Finished building: ASSIGNMENT_PROTEUS.hex
+Finished building: ASSIGNMENT_PROTEUS.bin
+ 
+ 
+Finished building: ASSIGNMENT_PROTEUS.list
+ 
 
-16:49:59 Build Finished. 0 errors, 0 warnings. (took 496ms)
+17:55:37 Build Finished. 0 errors, 7 warnings. (took 1s.102ms)
 

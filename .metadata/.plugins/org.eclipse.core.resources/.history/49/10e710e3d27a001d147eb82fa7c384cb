@@ -147,7 +147,7 @@ void fsm_p(){
 			break;
 		case P_RED://----------------------------------------
 //			redP();
-			yellowP();//red led ????
+			yellowP()//red led ????
 			if( timer3_flag == 1) {
 				Print_Mode(P_RED);
 				Print_TimeOut(timer3);

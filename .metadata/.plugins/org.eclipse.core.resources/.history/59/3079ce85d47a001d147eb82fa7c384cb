@@ -42,10 +42,6 @@ void greenP(){
 	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_RESET);
 }
-void yellowP(){
-	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_SET);
-}
 void offP(){
 	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_RESET);
@@ -146,8 +142,7 @@ void fsm_p(){
 //			redP();
 			break;
 		case P_RED://----------------------------------------
-//			redP();
-			yellowP();//red led ????
+			redP();
 			if( timer3_flag == 1) {
 				Print_Mode(P_RED);
 				Print_TimeOut(timer3);
@@ -166,7 +161,6 @@ void fsm_p(){
 			break;
 		case P_GREEN:
 			greenP();
-
 			if( timer3_flag == 1) {
 				Print_Mode(P_GREEN);
 				Print_TimeOut(timer3);
@@ -240,21 +234,21 @@ void fsm_automatic_run3(){
 					redP();
 //					setTimerOut2(1000);
 					setTimer3(OneSec);
-					timer3=timer-1;
+					timer3=timer;
 				}
 				if(status1== AUTO_GREEN){//notoke
 					status4=P_RED;
 					redP();
 //					setTimerOut2(timer*100+YELLOW_TIME);
 					setTimer3(OneSec);
-					timer3=timer+YELLOW_TIME/OneSec-1;
+					timer3=timer+YELLOW_TIME/OneSec;
 				}
 				if(status1== AUTO_YELLOW){//notoke
 					status4=P_RED;
 					offP();
 //					setTimer2(timer*100);
 					setTimer3(OneSec);
-					timer3=timer-1;
+					timer3=timer;
 				}
 				Print_HELLO();
 			}
