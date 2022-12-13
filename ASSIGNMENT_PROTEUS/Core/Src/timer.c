@@ -22,6 +22,11 @@ int timer2_counter = 0;
 int timer3_flag = 0;
 int timer3_counter = 0;
 
+int timerOut1_flag = 0;
+int timerOut1_counter = 0;
+
+int timerOut2_flag = 0;
+int timerOut2_counter = 0;
 
 void setTimer0(int duration){
 	timer0_counter = duration;
@@ -34,14 +39,20 @@ void setTimer1(int duration){
 void setTimer2(int duration){
 	timer2_counter = duration;
 	timer2_flag = 0;
-}
+};
 void setTimer3(int duration){
 	timer3_counter = duration;
 	timer3_flag = 0;
-}
+};
+void setTimerOut1(int duration){
+	timerOut1_flag = 0;
+	timerOut1_counter = duration;
+};
 
-
-
+void setTimerOut2(int duration){
+	timerOut2_flag = 0;
+	timerOut2_counter = duration;
+};
 
 
 void timerRun0(){
@@ -81,7 +92,24 @@ void timerRun3(){
 		}
 	}
 };
-
+void timerOut1(){
+	if(timerOut1_counter > 0 )
+	{
+		timerOut1_counter --;
+		if(timerOut1_counter <=0){
+			timerOut1_flag=1;
+		}
+	}
+}
+void timerOut2(){
+	if(timerOut2_counter > 0 )
+	{
+		timerOut2_counter --;
+		if(timerOut2_counter <=0){
+			timerOut2_flag=1;
+		}
+	}
+}
 
 
 #endif /* SRC_TIMER_C_ */

@@ -47,6 +47,7 @@ int GREEN_TIME=700;
 int timer2=0;
 int YELLOW_TIME=300;
 int timer3=0;
+int TIME_OUT=1000;
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -90,18 +91,42 @@ void Print_TimeP(int abc){
 	temp=abc;
 	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_P: %d\r", temp), 1000);
 }
-void Print_Time()
-{
+void Print_Mode(int abc){
 	char str[30];
 	int temp;
-	temp=timer;
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time1: %d\r", temp), 1000);
-	temp = timer2;
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time2: %d\r", temp), 1000);
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "-----\r"), 1000);
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "Mode: %d\r", temp), 1000);
+}
+void Print_Time(int abc){
+	char str[30];
+	int temp;
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time: %d\r", temp), 1000);
+}
+void Print_Time1(int abc){
+	char str[30];
+	int temp;
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_1: %d\r", temp), 1000);
+}
+void Print_Time2(int abc){
+	char str[30];
+	int temp;
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_2: %d\r", temp), 1000);
+}
+//void Print_Time()
+//{
+//	char str[30];
+//	int temp;
+//	temp=timer;
+//	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time1: %d\r", temp), 1000);
+//	temp = timer2;
+//	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time2: %d\r", temp), 1000);
+//	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "-----\r"), 1000);
 //	HAL_UART_Transmit(&huart2, (void*)str, sprintf("%c%c%c%c",0x1B,0x5B,0x32,0x4A), 1000);
 
-}
+//}
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -163,17 +188,23 @@ int main(void)
 //  Print_HELLO();
 //  SCH_Add_Task(Toggle_led, 10, 500);
 //  SCH_Add_Task(Print_HELLO, 10, 1000);
-  setTimer0(1);
-  setTimer1(2);
-  setTimer2(3);
-  setTimer3(4);
+  setTimer0(100);
+//  setTimer1(2);
+//  setTimer2(3);
+//  setTimer3(4);
+//  setTimerOut1(1);
+//  setTimerOut1(2);
+
 
   SCH_Add_Task(timerRun0, 20, 10);
-  SCH_Add_Task(timerRun1, 20, 10);
-  SCH_Add_Task(timerRun2, 20, 10);
-  SCH_Add_Task(timerRun3, 20, 10);
+//  SCH_Add_Task(timerRun1, 20, 10);
+//  SCH_Add_Task(timerRun2, 20, 10);
+//  SCH_Add_Task(timerRun3, 20, 10);
 
-  SCH_Add_Task(Print_Time, 10, 990);
+  SCH_Add_Task(timerOut1, 20, 10);
+  SCH_Add_Task(timerOut2, 20, 10);
+
+//  SCH_Add_Task(Print_Time, 10, 990);
 
   SCH_Add_Task(button_reading, 10, 10);
 

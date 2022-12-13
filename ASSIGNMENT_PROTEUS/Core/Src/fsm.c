@@ -5,7 +5,7 @@
  *      Author: Leanhthi
  */
 
-
+#define OneSec 100
 #include "fsm.h"
 #include "main.h"
 //HAL_GPIO_WritePin(GPIOB, ledpa_Pin|led1b_Pin|led2b_Pin|led2a_Pin, GPIO_PIN_RESET);
@@ -36,10 +36,10 @@ void toogleYellow1(){
 }
 void redP(){
 	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_SET);
+//	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_SET);
 }
 void greenP(){
-	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_SET);
+//	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_RESET);
 }
 void offP(){
@@ -50,35 +50,35 @@ void fsm_automatic_run1(){
 	switch (status1	) {
 		case INIT:
 			status1 = AUTO_RED;
-			timer = RED_TIME/100;
-			setTimer1(RED_TIME);
+			timer = RED_TIME/OneSec;
+//			setTimer1(RED_TIME);
 
 			break;
 		case AUTO_RED:
 			toogleRed();
 //			SCH_Add_Task(pFunction, DELAY, PERIOD)
-			if(timer1_flag==1){
+			if(timer==STOP){
 				status1 = AUTO_GREEN;
-				setTimer1(GREEN_TIME);
-				timer=GREEN_TIME/100;
+//				setTimer1(GREEN_TIME);
+				timer=GREEN_TIME/OneSec;
 			}
 			break;
 		case AUTO_GREEN:
 			toogleGreen();
-			if(timer1_flag==1){
+			if(timer==STOP){
 				status1 = AUTO_YELLOW;
-				setTimer1(YELLOW_TIME);
-				timer=YELLOW_TIME/100;
+//				setTimer1(YELLOW_TIME);
+				timer=YELLOW_TIME/OneSec;
 			}
 
 
 			break;
 		case AUTO_YELLOW:
 			toogleYellow();
-			if(timer1_flag==1){
+			if(timer==STOP){
 				status1 = AUTO_RED;
-				setTimer1(RED_TIME);
-				timer=RED_TIME/100;
+//				setTimer1(RED_TIME);
+				timer=RED_TIME/OneSec;
 			}
 			break;
 		default:
@@ -91,36 +91,34 @@ void fsm_automatic_run2(){
 	switch (status2	) {
 		case INIT:
 			status2 = AUTO_GREEN;
-			timer2=GREEN_TIME/100;
-			setTimer2(GREEN_TIME);
+			timer2=GREEN_TIME/OneSec;
+//			setTimer2(GREEN_TIME);
 			break;
 		case AUTO_RED:
 			toogleRed1();
-			if(timer2_flag==1){
+			if(timer2==STOP){
 				status2 = AUTO_GREEN;
-				setTimer2(GREEN_TIME);
-				timer2=GREEN_TIME/100;
+//				setTimer2(GREEN_TIME);
+				timer2=GREEN_TIME/OneSec;
 			}
 			break;
 		case AUTO_GREEN:
 			toogleGreen1();
-			if(timer2_flag==1){
+			if(timer2==STOP){
 				status2 = AUTO_YELLOW;
-				setTimer2(YELLOW_TIME);
-				timer2=YELLOW_TIME/100;
+//				setTimer2(YELLOW_TIME);
+				timer2=YELLOW_TIME/OneSec;
 			}
 
 
 			break;
 		case AUTO_YELLOW:
 			toogleYellow1();
-			if(timer2_flag==1){
+			if(timer2==STOP){
 				status2 = AUTO_RED;
-				setTimer2(RED_TIME);
-				timer2=RED_TIME/100;
+//				setTimer2(RED_TIME);
+				timer2=RED_TIME/OneSec;
 			}
-
-
 
 			break;
 		default:
@@ -131,6 +129,8 @@ void fsm_p(){
 	switch (status4) {
 		case INIT:
 			status4=Waiting;
+//			setTimerOut2(1);
+			timer3 = 0;
 //			Print_HELLO();
 			break;
 		case Waiting:
@@ -139,15 +139,31 @@ void fsm_p(){
 			break;
 		case P_RED://----------------------------------------
 			redP();
+			if( timer3_flag == 1) {
+				Print_Mode(P_RED);
+				Print_TimeOut(timer3);
+				timer3--;
+				setTimer3 (OneSec) ;
+//					Print_HELLO();
+				}
 //			Print_HELLO();
-			if(timer3_flag==1){
-				setTimer3(RED_TIME);
+			if(timer3==STOP){
+//				setTimerOut2(RED_TIME);
 				status4=P_GREEN;
+				timer3 = RED_TIME/OneSec;
+				offP();
 				break;
 				}
 		case P_GREEN:
 			greenP();
-			if(timer3_flag==1){
+			if( timer3_flag == 1) {
+				Print_Mode(P_GREEN);
+				Print_TimeOut(timer3);
+				timer3--;
+				setTimer3 (OneSec) ;
+//					Print_HELLO();
+				}
+			if(timer3==STOP){
 				status4=INIT;
 			}
 			break;
@@ -159,17 +175,25 @@ void fsm_automatic_run3(){
 	switch (status3	) {
 		case RUNNING:
 			if( timer0_flag == 1) {
+//				Pri
+				Print_Time1(timer);
+				Print_Time2(timer2);
 				timer--;
 				timer2--;
-				setTimer0 (100) ;
+				setTimer0 (OneSec);
 //					Print_HELLO();
 				}
 			if(button_flag[0]==1){
 				button_flag[0]=0;
 				status1=Waiting;
 				status2=Waiting;
+				status4=Waiting;
 				status3=MAN_RED;
-				timer2=RED_TIME/100;
+				setTimer0(OneSec);
+				timer = MAN_RED;
+				timer2=RED_TIME/OneSec;
+//				setTimerOut1(TIME_OUT);
+				timer3= TIME_OUT/OneSec;
 			}
 			if(button_flag[1]==1)
 			{
@@ -188,59 +212,75 @@ void fsm_automatic_run3(){
 					default:
 						break;
 				}
-				setTimer0 (100);
-				setTimer1(1000);
-				timer=10;
+				setTimer0 (OneSec);
+//				setTimerOut1(TIME_OUT);
+				timer=TIME_OUT/OneSec;
 				status1 = Waiting;
 				status2 = Waiting;
+				status4 = Waiting;
 
 			}
 			if(button_flag[3]==1){
 				button_flag[3]=0;
 				if(status1== AUTO_RED){//oke
 					status4=P_GREEN;
-					setTimer3(timer*100);
-					timer3=timer;
+//					setTimerOut2(1000);
+					setTimer3(OneSec);
+					timer3=timer-1;
 				}
 				if(status1== AUTO_GREEN){//notoke
 					status4=P_RED;
-					setTimer3(timer*100+YELLOW_TIME);
-					timer3=timer+YELLOW_TIME/100;
+					offP();
+//					setTimerOut2(timer*100+YELLOW_TIME);
+					setTimer3(OneSec);
+					timer3=timer+YELLOW_TIME/OneSec-1;
 				}
 				if(status1== AUTO_YELLOW){//notoke
 					status4=P_RED;
-					setTimer3(timer*100);
-					timer3=timer;
+					offP();
+//					setTimer2(timer*100);
+					setTimer3(OneSec);
+					timer3=timer-1;
 				}
 				Print_HELLO();
 			}
 			break;
 
 		case INIT:
+			Print_Mode(INIT);
+//			setTimerOut1(1);
+			timer3=0;
+			setTimer0(OneSec);
 			status1=INIT;
 			status2=INIT;
-			status4=Waiting;
+			status4=INIT;
 			status3=RUNNING;
 
 
 
 			break;
 		case MAN_RED:
-//			Print_Time(timer);
-//			Print_Time(timer2);
 			toogleRed();
 			toogleRed1();
-
+			if( timer0_flag == 1) {
+				Print_Mode(timer);
+				Print_Time(timer2);
+				Print_TimeOut(timer3);
+				timer3--;
+				setTimer0 (OneSec) ;
+				}
 			if(timer2>99)timer2=0;
 			RED_TIME=timer2*100;
-			timer=01;
 			if(button_flag[0]==1){
 				button_flag[0]=0;
-				timer2=GREEN_TIME/100;
+				timer2=GREEN_TIME/OneSec;
+				timer = MAN_GREEN;
 				status3=MAN_GREEN;
+				setTimer0 (OneSec);
+//				setTimerOut1(TIME_OUT);
+				timer3= TIME_OUT/OneSec;
 			}
 			if(button_flag[1]==1){
-//				Print_HELLO();
 				button_flag[1]=0;
 				timer2++;
 			}
@@ -248,25 +288,32 @@ void fsm_automatic_run3(){
 				button_flag[2]=0;
 				timer2--;
 			}
-//			if(button_flag[3]==1){
-//				button_flag[3]=0;
-//				RED_TIME=timer2*100;
-//			}
-
+			if(timer3==STOP){
+				status3=INIT;
+			}
 			break;
 		case MAN_GREEN:
-//			Print_Time(timer);
-//			Print_Time(timer2);
+
+			if( timer0_flag == 1) {
+				Print_Mode(timer);
+				Print_Time(timer2);
+				Print_TimeOut(timer3);
+				timer3--;
+				setTimer0 (OneSec) ;
+				}
 			toogleGreen();
 			toogleGreen1();
 			if(timer2>99)timer2=0;
 
-			timer=02;
 			GREEN_TIME=timer2*100;
 			if(button_flag[0]==1){
 				button_flag[0]=0;
-				timer2=YELLOW_TIME/100;
+				timer2=YELLOW_TIME/OneSec;
 				status3=MAN_YELLOW;
+				timer = MAN_YELLOW;
+				setTimer0(OneSec);
+//				setTimerOut1(TIME_OUT);
+				timer3= TIME_OUT/OneSec;
 			}
 			if(button_flag[1]==1){
 				button_flag[1]=0;
@@ -276,27 +323,26 @@ void fsm_automatic_run3(){
 				button_flag[2]=0;
 				timer2--;
 			}
-//			if(button_flag[3]==1){
-//				button_flag[3]=0;
-//				YELLOW_TIME=timer2*100;
-//			}
-
-
+			if(timer3==STOP){
+				status3=INIT;
+			}
 
 			break;
 		case MAN_YELLOW:
-//			Print_Time(timer);
-//			Print_Time(timer2);
+			if( timer0_flag == 1) {
+				Print_Mode(timer);
+				Print_Time(timer2);
+				Print_TimeOut(timer3);
+				setTimer0 (OneSec) ;
+				timer3--;
+				}
 			toogleYellow();
 			toogleYellow1();
 			if(timer2>99)timer2=0;
 			if(timer2<3)timer2=3;
 			YELLOW_TIME=timer2*100;
-
-			timer=03;
 			if(button_flag[0]==1){
 				button_flag[0]=0;
-
 				status3=INIT;
 			}
 			if(button_flag[1]==1){
@@ -307,76 +353,71 @@ void fsm_automatic_run3(){
 				button_flag[2]=0;
 				timer2--;
 			}
-//			if(button_flag[3]==1){
-//				button_flag[3]=0;
-//				YELLOW_TIME=timer2*100;
-//			}
-
-
+			if(timer3==STOP){
+				status3=INIT;
+			}
 			break;
 		case HAND_RED:
 			if(timer0_flag == 1) {
 				timer--;
-//				timer2--;
+				Print_Mode(HAND_RED);
 				Print_TimeOut(timer);
-				setTimer0 (100) ;
-			//					Print_HELLO();
-			}
-			if(timer1_flag == 1){
-				status3=INIT;
-			}
-			if(button_flag[1]==1){
-				button_flag[1]=0;
-				timer=10;
-				status3=HAND_GREEN;
-				setTimer0 (100);
-				setTimer1(1000);
+				setTimer0 (OneSec) ;
 			}
 
+			if(button_flag[1]==1){
+				button_flag[1]=0;
+				status3=HAND_GREEN;
+				setTimer0 (OneSec);
+//				setTimerOut1(TIME_OUT);
+				timer=10;
+			}
+			if(timer==STOP){
+				status3=INIT;
+			}
+			 toogleGreen1();
 			 toogleRed();
 			break;
 		case HAND_GREEN:
 
 			if(timer0_flag == 1) {
 				timer--;
-//				timer2--;
+				Print_Mode(HAND_GREEN);
 				Print_TimeOut(timer);
-				setTimer0 (100) ;
-			//					Print_HELLO();
+				setTimer0 (OneSec) ;
 				}
-			if(timer1_flag == 1){
-				status3=INIT;
 
-			}
 			if(button_flag[1]==1){
 				button_flag[1]=0;
 				status3=HAND_YELLOW;
+				setTimer0 (OneSec);
+				setTimerOut1(TIME_OUT);
 				timer=10;
-				setTimer0 (100);
-				setTimer1(1000);
 			}
-//			toogleRed();
+			if(timer==STOP){
+				status3=INIT;
+			}
+			toogleRed1();
 			toogleGreen();
 			break;
 		case HAND_YELLOW:
 			if(timer0_flag == 1) {
 				timer--;
-//				timer2--;
+				Print_Mode(HAND_YELLOW);
 				Print_TimeOut(timer);
-				setTimer0 (100) ;
-			//					Print_HELLO();
+				setTimer0 (OneSec) ;
 				}
-			if(timer1_flag == 1){
-				status3=INIT;
-			}
-//			 toogleRed();
 			if(button_flag[1]==1){
 				button_flag[1]=0;
 				status3=HAND_RED;
+				setTimer0 (OneSec);
+				setTimerOut1(TIME_OUT);
 				timer=10;
-				setTimer0 (100);
-				setTimer1(1000);
 			}
+			if(timer==STOP){
+				status3=INIT;
+			}
+			toogleRed1();
 			toogleYellow();
 			break;
 

@@ -12,7 +12,7 @@
 #define RUNNING 100
 #define Waiting 99
 
-
+#define STOP 0
 
 
 #define AUTO_RED 1
@@ -45,7 +45,7 @@ extern int status4;
 extern int RED_TIME;
 extern int GREEN_TIME;
 extern int YELLOW_TIME;
-
+extern int TIME_OUT;
 
 
 

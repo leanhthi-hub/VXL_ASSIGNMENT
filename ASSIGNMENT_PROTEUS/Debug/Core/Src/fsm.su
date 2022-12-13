@@ -9,5 +9,5 @@ fsm.c:41:6:greenP	8	static
 fsm.c:45:6:offP	8	static
 fsm.c:49:6:fsm_automatic_run1	8	static
 fsm.c:90:6:fsm_automatic_run2	8	static
-fsm.c:130:6:fsm_p	8	static
-fsm.c:158:6:fsm_automatic_run3	8	static
+fsm.c:128:6:fsm_p	8	static
+fsm.c:174:6:fsm_automatic_run3	8	static
