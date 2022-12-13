@@ -3444,8 +3444,7 @@ LOAD d:/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externa
 .rodata         0x000000000800435c       0xc4
                 0x000000000800435c                . = ALIGN (0x4)
  *(.rodata)
- .rodata        0x000000000800435c       0x67 ./Core/Src/main.o
- *fill*         0x00000000080043c3        0x1 
+ .rodata        0x000000000800435c       0x68 ./Core/Src/main.o
  .rodata        0x00000000080043c4       0x10 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.o
  *(.rodata*)
  .rodata.AHBPrescTable

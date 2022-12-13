@@ -127,13 +127,13 @@ void toogleGreen(){
 void toogleYellow(){
  800019c:	b580      	push	{r7, lr}
  800019e:	af00      	add	r7, sp, #0
-	HAL_GPIO_WritePin(GPIOA,led1a_Pin, GPIO_PIN_RESET);
- 80001a0:	2200      	movs	r2, #0
+	HAL_GPIO_WritePin(GPIOA,led1a_Pin, GPIO_PIN_SET);
+ 80001a0:	2201      	movs	r2, #1
  80001a2:	f44f 6180 	mov.w	r1, #1024	; 0x400
  80001a6:	4805      	ldr	r0, [pc, #20]	; (80001bc <toogleYellow+0x20>)
  80001a8:	f001 ff71 	bl	800208e <HAL_GPIO_WritePin>
-	HAL_GPIO_WritePin(GPIOB,led1b_Pin, GPIO_PIN_RESET);
- 80001ac:	2200      	movs	r2, #0
+	HAL_GPIO_WritePin(GPIOB,led1b_Pin, GPIO_PIN_SET);
+ 80001ac:	2201      	movs	r2, #1
  80001ae:	2108      	movs	r1, #8
  80001b0:	4803      	ldr	r0, [pc, #12]	; (80001c0 <toogleYellow+0x24>)
  80001b2:	f001 ff6c 	bl	800208e <HAL_GPIO_WritePin>
@@ -186,13 +186,13 @@ void toogleGreen1(){
 void toogleYellow1(){
  8000204:	b580      	push	{r7, lr}
  8000206:	af00      	add	r7, sp, #0
-	HAL_GPIO_WritePin(GPIOB,led2a_Pin, GPIO_PIN_RESET);
- 8000208:	2200      	movs	r2, #0
+	HAL_GPIO_WritePin(GPIOB,led2a_Pin, GPIO_PIN_SET);
+ 8000208:	2201      	movs	r2, #1
  800020a:	2120      	movs	r1, #32
  800020c:	4804      	ldr	r0, [pc, #16]	; (8000220 <toogleYellow1+0x1c>)
  800020e:	f001 ff3e 	bl	800208e <HAL_GPIO_WritePin>
-	HAL_GPIO_WritePin(GPIOB,led2b_Pin, GPIO_PIN_RESET);
- 8000212:	2200      	movs	r2, #0
+	HAL_GPIO_WritePin(GPIOB,led2b_Pin, GPIO_PIN_SET);
+ 8000212:	2201      	movs	r2, #1
  8000214:	2110      	movs	r1, #16
  8000216:	4802      	ldr	r0, [pc, #8]	; (8000220 <toogleYellow1+0x1c>)
  8000218:	f001 ff39 	bl	800208e <HAL_GPIO_WritePin>
@@ -245,13 +245,13 @@ void greenP(){
 void offP(){
  8000274:	b580      	push	{r7, lr}
  8000276:	af00      	add	r7, sp, #0
-	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_SET);
- 8000278:	2201      	movs	r2, #1
+	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_RESET);
+ 8000278:	2200      	movs	r2, #0
  800027a:	f44f 6180 	mov.w	r1, #1024	; 0x400
  800027e:	4805      	ldr	r0, [pc, #20]	; (8000294 <offP+0x20>)
  8000280:	f001 ff05 	bl	800208e <HAL_GPIO_WritePin>
-	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_SET);
- 8000284:	2201      	movs	r2, #1
+	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_RESET);
+ 8000284:	2200      	movs	r2, #0
  8000286:	f44f 7180 	mov.w	r1, #256	; 0x100
  800028a:	4803      	ldr	r0, [pc, #12]	; (8000298 <offP+0x24>)
  800028c:	f001 feff 	bl	800208e <HAL_GPIO_WritePin>
@@ -2118,7 +2118,7 @@ void Print_ERROR(){
  8000efe:	681b      	ldr	r3, [r3, #0]
  8000f00:	429a      	cmp	r2, r3
  8000f02:	d013      	beq.n	8000f2c <Print_ERROR+0x40>
-		HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "ERROR 1 reset TIME"), 1000);
+		HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "ERROR 1 reset TIME\r"), 1000);
  8000f04:	463b      	mov	r3, r7
  8000f06:	490e      	ldr	r1, [pc, #56]	; (8000f40 <Print_ERROR+0x54>)
  8000f08:	4618      	mov	r0, r3
@@ -3284,9 +3284,9 @@ void HAL_MspInit(void)
 
   /* System interrupt init*/
 
-  /** DISABLE: JTAG-DP Disabled and SW-DP Disabled
+  /** NOJTAG: JTAG-DP Disabled and SW-DP Enabled
   */
-  __HAL_AFIO_REMAP_SWJ_DISABLE();
+  __HAL_AFIO_REMAP_SWJ_NOJTAG();
  80015f6:	4b0a      	ldr	r3, [pc, #40]	; (8001620 <HAL_MspInit+0x60>)
  80015f8:	685b      	ldr	r3, [r3, #4]
  80015fa:	60fb      	str	r3, [r7, #12]
@@ -3294,7 +3294,7 @@ void HAL_MspInit(void)
  80015fe:	f023 63e0 	bic.w	r3, r3, #117440512	; 0x7000000
  8001602:	60fb      	str	r3, [r7, #12]
  8001604:	68fb      	ldr	r3, [r7, #12]
- 8001606:	f043 6380 	orr.w	r3, r3, #67108864	; 0x4000000
+ 8001606:	f043 7300 	orr.w	r3, r3, #33554432	; 0x2000000
  800160a:	60fb      	str	r3, [r7, #12]
  800160c:	4a04      	ldr	r2, [pc, #16]	; (8001620 <HAL_MspInit+0x60>)
  800160e:	68fb      	ldr	r3, [r7, #12]

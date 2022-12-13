@@ -22,7 +22,32 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "scheduler.h"
+#include "global.h"
+//#include "input_processing.h"
+#include "input_reading.h"
+//#include "updateClockBuffer.h"
+//#include "Update7Seg.h"
+#include "timer.h"
+#include "fsm.h"
+#include <stdio.h>
 
+const int MAX_LED = 4;
+int index_led = 0;
+int led_buffer [4];
+int second,second1;
+
+int status1 = Waiting;
+int status2 = Waiting;
+int status4 = Waiting;
+int status3 = INIT;
+int RED_TIME=1000;
+int timer=0;
+int GREEN_TIME=700;
+int timer2=0;
+int YELLOW_TIME=300;
+int timer3=0;
+int TIME_OUT=1000;
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -43,19 +68,84 @@
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 
-
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
+void Print_HELLO()
+{
+	char str[30];
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "HELLO\r"), 1000);
+}
+//void Toggle_led()
+//{
+//	HAL_GPIO_TogglePin(GPIOA, Led_1_Pin);
+//}
+void Print_TimeOut(int abc){
+	char str[30];
+	int temp;
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "timeout: %d\r", temp), 1000);
+}
+void Print_TimeP(int abc){
+	char str[30];
+	int temp;
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_P: %d\r", temp), 1000);
+}
+void Print_Mode(int abc){
+	char str[30];
+	int temp;
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "Mode: %d\r", temp), 1000);
+}
+void Print_Time(int abc){
+	char str[30];
+	int temp;
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time: %d\r", temp), 1000);
+}
+void Print_Time1(int abc){
+	char str[30];
+	int temp;
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_1: %d\r", temp), 1000);
+}
+void Print_Time2(int abc){
+	char str[30];
+	int temp;
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_2: %d\r", temp), 1000);
+}
 
+void Print_ERROR(){
+	char str[30];
+//	int temp;
+//	temp=abc;
+	if(RED_TIME!=GREEN_TIME+YELLOW_TIME){
+		HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "ERROR 1 reset TIME\r"), 1000);
+		RED_TIME = GREEN_TIME + YELLOW_TIME;
+	}
+}
+//void Print_Time()
+//{
+//	char str[30];
+//	int temp;
+//	temp=timer;
+//	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time1: %d\r", temp), 1000);
+//	temp = timer2;
+//	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time2: %d\r", temp), 1000);
+//	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "-----\r"), 1000);
+//	HAL_UART_Transmit(&huart2, (void*)str, sprintf("%c%c%c%c",0x1B,0x5B,0x32,0x4A), 1000);
+
+//}
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM2_Init(void);
-static void MX_TIM3_Init(void);
 static void MX_USART2_UART_Init(void);
+static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -88,26 +178,68 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  MX_GPIO_Init ();
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM2_Init();
-  MX_TIM3_Init();
   MX_USART2_UART_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+//  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
   HAL_TIM_Base_Start_IT (& htim2 ) ;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  HAL_GPIO_WritePin(GPIOB, ledpa_Pin|led1b_Pin|led2b_Pin|led2a_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(GPIOA, ledpb_Pin|led1a_Pin, GPIO_PIN_RESET);
-  setTimer1(5);
+//  HAL_GPIO_WritePin(GPIOB, ledpa_Pin|led1b_Pin|led2b_Pin|led2a_Pin, GPIO_PIN_RESET);
+//  HAL_GPIO_WritePin(GPIOA, ledpb_Pin|led1a_Pin, GPIO_PIN_RESET);\char str[30];
+
+//  Print_HELLO();
+  SCH_Init();
+//  Print_HELLO();
+//  SCH_Add_Task(Toggle_led, 10, 500);
+//  SCH_Add_Task(Print_HELLO, 10, 1000);
+//  setTimer0(100);
+//  setTimer1(2);
+//  setTimer2(3);
+//  setTimer3(100);
+//  setTimerOut1(1);
+//  setTimerOut1(2);
+
+  HAL_GPIO_WritePin(GPIOB, ledpa_Pin|led1b_Pin|led2b_Pin|led2a_Pin, GPIO_PIN_SET);
+
+  HAL_GPIO_WritePin(GPIOA, ledpb_Pin|led1a_Pin, GPIO_PIN_SET);
+
+//  SCH_Add_Task(timerRun0, 20, 10);
+//  SCH_Add_Task(timerRun1, 20, 10);
+//  SCH_Add_Task(timerRun2, 20, 10);
+//  SCH_Add_Task(timerRun3, 20, 10);
+//
+//  SCH_Add_Task(timerOut1, 20, 10);
+//  SCH_Add_Task(timerOut2, 20, 10);
+
+
+//  SCH_Add_Task(Print_Time, 10, 990);
+
+//  SCH_Add_Task(button_reading, 10, 10);
+//
+//  SCH_Add_Task(fsm_automatic_run1, 20, 10);
+//  SCH_Add_Task(fsm_automatic_run2, 20, 10);
+//  SCH_Add_Task(fsm_automatic_run3, 20, 10);
+//  SCH_Add_Task(fsm_p, 20, 10);
+
+
+//  SCH_Add_Task(timerRun0, 0, 10);
+//  SCH_Add_Task(timerRun0, 0, 10);
   while (1)
   {
+//		 fsm_automatic_run1();
+//		 fsm_automatic_run2();
+//		 fsm_automatic_run3();
+//	  SCH_Dispatch_Tasks();
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -215,9 +347,9 @@ static void MX_TIM3_Init(void)
 
   /* USER CODE END TIM3_Init 1 */
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 63;
+  htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 999;
+  htim3.Init.Period = 65535;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
@@ -356,9 +488,10 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
-	if(htim->Instance == htim2.Instance){
-
-	}
+	if( htim -> Instance == TIM2 ){
+//		SCH_Update();
+//		button_reading () ;
+		}
 }
 /* USER CODE END 4 */
 

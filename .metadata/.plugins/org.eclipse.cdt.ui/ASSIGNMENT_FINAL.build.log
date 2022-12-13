@@ -1,0 +1,37 @@
+17:40:56 **** Incremental Build of configuration Debug for project ASSIGNMENT_FINAL ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/fsm.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/fsm.d" -MT"Core/Src/fsm.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/fsm.o"
+../Core/Src/fsm.c: In function 'fsm_p':
+../Core/Src/fsm.c:150:13: error: expected ';' before 'if'
+  150 |    yellowP()//red led ????
+      |             ^
+      |             ;
+  151 |    if( timer3_flag == 1) {
+      |    ~~        
+../Core/Src/fsm.c:171:5: warning: implicit declaration of function 'Print_Mode' [-Wimplicit-function-declaration]
+  171 |     Print_Mode(P_GREEN);
+      |     ^~~~~~~~~~
+../Core/Src/fsm.c:172:5: warning: implicit declaration of function 'Print_TimeOut' [-Wimplicit-function-declaration]
+  172 |     Print_TimeOut(timer3);
+      |     ^~~~~~~~~~~~~
+../Core/Src/fsm.c: In function 'fsm_automatic_run3':
+../Core/Src/fsm.c:190:5: warning: implicit declaration of function 'Print_Time1' [-Wimplicit-function-declaration]
+  190 |     Print_Time1(timer);
+      |     ^~~~~~~~~~~
+../Core/Src/fsm.c:191:5: warning: implicit declaration of function 'Print_Time2' [-Wimplicit-function-declaration]
+  191 |     Print_Time2(timer2);
+      |     ^~~~~~~~~~~
+../Core/Src/fsm.c:212:5: warning: implicit declaration of function 'Print_HELLO' [-Wimplicit-function-declaration]
+  212 |     Print_HELLO();
+      |     ^~~~~~~~~~~
+../Core/Src/fsm.c:265:4: warning: implicit declaration of function 'Print_ERROR' [-Wimplicit-function-declaration]
+  265 |    Print_ERROR();
+      |    ^~~~~~~~~~~
+../Core/Src/fsm.c:282:5: warning: implicit declaration of function 'Print_Time' [-Wimplicit-function-declaration]
+  282 |     Print_Time(timer2);
+      |     ^~~~~~~~~~
+make: *** [Core/Src/subdir.mk:52: Core/Src/fsm.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+
+17:40:57 Build Failed. 2 errors, 7 warnings. (took 612ms)
+
