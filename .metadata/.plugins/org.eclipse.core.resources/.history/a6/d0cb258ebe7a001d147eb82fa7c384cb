@@ -256,7 +256,6 @@ void fsm_automatic_run3(){
 
 		case INIT:
 			Print_Mode(INIT);
-			Print_ERROR();
 //			setTimerOut1(1);
 			timer3=0;
 			setTimer0(OneSec);

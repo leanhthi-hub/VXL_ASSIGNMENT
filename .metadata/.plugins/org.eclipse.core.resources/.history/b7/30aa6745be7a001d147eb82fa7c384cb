@@ -121,8 +121,7 @@ void Print_ERROR(){
 //	int temp;
 //	temp=abc;
 	if(RED_TIME!=GREEN_TIME+YELLOW_TIME){
-		HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "ERROR 1 reset TIME\r"), 1000);
-		RED_TIME = GREEN_TIME + YELLOW_TIME;
+		HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "ERROR"), 1000);
 	}
 }
 //void Print_Time()
