@@ -10,4 +10,4 @@ fsm.c:45:6:offP	8	static
 fsm.c:49:6:fsm_automatic_run1	8	static
 fsm.c:90:6:fsm_automatic_run2	8	static
 fsm.c:128:6:fsm_p	8	static
-fsm.c:180:6:fsm_automatic_run3	8	static
+fsm.c:181:6:fsm_automatic_run3	8	static

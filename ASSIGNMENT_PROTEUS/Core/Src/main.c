@@ -125,6 +125,19 @@ void Print_ERROR(){
 		RED_TIME = GREEN_TIME + YELLOW_TIME;
 	}
 }
+int speaker = 0;
+void toogle_Speaker(){
+	if(speaker == 0){
+		__HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1,1000);
+		speaker = 1;
+	}
+
+	else if(speaker == 1){
+		__HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1,0);
+		speaker = 0;
+	}
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "speaker: %d\r", speaker), 1000);
+}
 //void Print_Time()
 //{
 //	char str[30];
@@ -186,6 +199,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
 //  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
   HAL_TIM_Base_Start_IT (& htim2 ) ;
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

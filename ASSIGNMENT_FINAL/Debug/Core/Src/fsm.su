@@ -6,9 +6,8 @@ fsm.c:29:6:toogleGreen1	8	static
 fsm.c:33:6:toogleYellow1	8	static
 fsm.c:37:6:redP	8	static
 fsm.c:41:6:greenP	8	static
-fsm.c:45:6:yellowP	8	static
-fsm.c:49:6:offP	8	static
-fsm.c:53:6:fsm_automatic_run1	8	static
-fsm.c:94:6:fsm_automatic_run2	8	static
-fsm.c:132:6:fsm_p	8	static
-fsm.c:185:6:fsm_automatic_run3	8	static
+fsm.c:45:6:offP	8	static
+fsm.c:49:6:fsm_automatic_run1	8	static
+fsm.c:90:6:fsm_automatic_run2	8	static
+fsm.c:128:6:fsm_p	8	static
+fsm.c:182:6:fsm_automatic_run3	8	static

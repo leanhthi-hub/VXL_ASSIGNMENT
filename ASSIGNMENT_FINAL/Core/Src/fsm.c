@@ -11,39 +11,35 @@
 //HAL_GPIO_WritePin(GPIOB, ledpa_Pin|led1b_Pin|led2b_Pin|led2a_Pin, GPIO_PIN_RESET);
 //HAL_GPIO_WritePin(GPIOA, ledpb_Pin|led1a_Pin, GPIO_PIN_RESET);
 void toogleRed(){
-	HAL_GPIO_WritePin(GPIOA,led1a_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOB,led1b_Pin, GPIO_PIN_SET);
-}
-void toogleGreen(){
 	HAL_GPIO_WritePin(GPIOA,led1a_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GPIOB,led1b_Pin, GPIO_PIN_RESET);
+}
+void toogleGreen(){
+	HAL_GPIO_WritePin(GPIOA,led1a_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB,led1b_Pin, GPIO_PIN_SET);
 }
 void toogleYellow(){
 	HAL_GPIO_WritePin(GPIOA,led1a_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GPIOB,led1b_Pin, GPIO_PIN_SET);
 }
 void toogleRed1(){
-	HAL_GPIO_WritePin(GPIOB,led2a_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOB,led2b_Pin, GPIO_PIN_SET);
-}
-void toogleGreen1(){
 	HAL_GPIO_WritePin(GPIOB,led2a_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GPIOB,led2b_Pin, GPIO_PIN_RESET);
+}
+void toogleGreen1(){
+	HAL_GPIO_WritePin(GPIOB,led2a_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB,led2b_Pin, GPIO_PIN_SET);
 }
 void toogleYellow1(){
 	HAL_GPIO_WritePin(GPIOB,led2a_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GPIOB,led2b_Pin, GPIO_PIN_SET);
 }
 void redP(){
-	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_SET);
-}
-void greenP(){
 	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_RESET);
 }
-void yellowP(){
-	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_SET);
+void greenP(){
+	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_SET);
 }
 void offP(){
@@ -137,6 +133,7 @@ void fsm_p(){
 			timer3 = 0;
 //			Print_HELLO();
 			offP();
+			off_Speaker();
 			break;
 		case Waiting:
 //			Print_HELLO();
@@ -146,33 +143,33 @@ void fsm_p(){
 //			redP();
 			break;
 		case P_RED://----------------------------------------
-//			redP();
-			yellowP();//red led ????
-			if( timer3_flag == 1) {
-				Print_Mode(P_RED);
-				Print_TimeOut(timer3);
-				timer3--;
-				setTimer3 (OneSec) ;
-//					Print_HELLO();
-				}
+			redP();
+//			if( timer3_flag == 1) {
+//				Print_Mode(P_RED);
+//				Print_TimeOut(timer3);
+//				timer3--;
+//				setTimer3 (OneSec) ;
+////					Print_HELLO();
+//				}
 //			Print_HELLO();
 			if(timer3==STOP){
 //				setTimerOut2(RED_TIME);
 				status4=P_GREEN;
-				timer3 = RED_TIME/OneSec;
+				timer3 = RED_TIME/OneSec-1;
 				offP();
+				setTimer3 (1);
 //				break;
 				}
 			break;
 		case P_GREEN:
 			greenP();
-
 			if( timer3_flag == 1) {
-				Print_Mode(P_GREEN);
-				Print_TimeOut(timer3);
-				timer3--;
-				setTimer3 (OneSec) ;
-//					Print_HELLO();
+//				Print_Mode(P_GREEN);
+//				Print_TimeOut(timer3);
+//				timer3--;
+				toogle_Speaker();
+				setTimer3 (timer3*4) ;
+////					Print_HELLO();
 				}
 			if(timer3==STOP){
 				status4=INIT;
@@ -191,6 +188,11 @@ void fsm_automatic_run3(){
 				Print_Time2(timer2);
 				timer--;
 				timer2--;
+				if(status4==P_RED||status4==P_GREEN){
+					Print_Mode(status4);
+					Print_TimeOut(timer3);
+					timer3--;
+				}
 				setTimer0 (OneSec);
 //					Print_HELLO();
 				}
@@ -237,24 +239,24 @@ void fsm_automatic_run3(){
 				button_flag[3]=0;
 				if(status1== AUTO_RED){//oke
 					status4=P_GREEN;
-					redP();
+//					redP();
 //					setTimerOut2(1000);
 					setTimer3(OneSec);
-					timer3=timer-1;
+					timer3=timer;
 				}
 				if(status1== AUTO_GREEN){//notoke
 					status4=P_RED;
-					redP();
+//					redP();
 //					setTimerOut2(timer*100+YELLOW_TIME);
 					setTimer3(OneSec);
-					timer3=timer+YELLOW_TIME/OneSec-1;
+					timer3=timer+YELLOW_TIME/OneSec;
 				}
 				if(status1== AUTO_YELLOW){//notoke
 					status4=P_RED;
 					offP();
 //					setTimer2(timer*100);
 					setTimer3(OneSec);
-					timer3=timer-1;
+					timer3=timer;
 				}
 				Print_HELLO();
 			}
