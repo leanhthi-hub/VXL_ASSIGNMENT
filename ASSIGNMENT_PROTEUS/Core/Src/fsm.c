@@ -133,6 +133,7 @@ void fsm_p(){
 			timer3 = 0;
 //			Print_HELLO();
 			offP();
+			off_Speaker();
 			break;
 		case Waiting:
 //			Print_HELLO();
@@ -156,7 +157,7 @@ void fsm_p(){
 				status4=P_GREEN;
 				timer3 = RED_TIME/OneSec-1;
 				offP();
-				setTimer3 (timer3 * 45);
+				setTimer3 (1);
 //				break;
 				}
 			break;
@@ -167,7 +168,7 @@ void fsm_p(){
 //				Print_TimeOut(timer3);
 //				timer3--;
 				toogle_Speaker();
-				setTimer3 (timer3*45) ;
+				setTimer3 (timer3*4) ;
 ////					Print_HELLO();
 				}
 			if(timer3==STOP){

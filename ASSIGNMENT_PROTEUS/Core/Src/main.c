@@ -41,11 +41,11 @@ int status1 = Waiting;
 int status2 = Waiting;
 int status4 = Waiting;
 int status3 = INIT;
-int RED_TIME=1000;
+int RED_TIME=TIME_RED;
 int timer=0;
-int GREEN_TIME=700;
+int GREEN_TIME = TIME_GREEN;
 int timer2=0;
-int YELLOW_TIME=300;
+int YELLOW_TIME = TIME_RED - TIME_GREEN;
 int timer3=0;
 int TIME_OUT=1000;
 /* USER CODE END Includes */
@@ -66,6 +66,7 @@ int TIME_OUT=1000;
 
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim3;
 
 UART_HandleTypeDef huart2;
 
@@ -75,10 +76,10 @@ void Print_HELLO()
 	char str[30];
 	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "HELLO\r"), 1000);
 }
-void Toggle_led()
-{
-	HAL_GPIO_TogglePin(GPIOA, Led_1_Pin);
-}
+//void Toggle_led()
+//{
+//	HAL_GPIO_TogglePin(GPIOA, Led_1_Pin);
+//}
 void Print_TimeOut(int abc){
 	char str[30];
 	int temp;
@@ -115,7 +116,22 @@ void Print_Time2(int abc){
 	temp=abc;
 	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_2: %d\r", temp), 1000);
 }
+int speaker = 0;
+void off_Speaker(){
 
+		__HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1,0);
+		speaker = 0;
+}
+void toogle_Speaker(){
+	if(speaker == 0){
+		__HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1,910);
+		speaker = 1;
+	}
+	else if(speaker == 1){
+		__HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1,0);
+		speaker = 0;
+	}
+}
 void Print_ERROR(){
 	char str[30];
 //	int temp;
@@ -124,19 +140,6 @@ void Print_ERROR(){
 		HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "ERROR 1 reset TIME\r"), 1000);
 		RED_TIME = GREEN_TIME + YELLOW_TIME;
 	}
-}
-int speaker = 0;
-void toogle_Speaker(){
-	if(speaker == 0){
-		__HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1,1000);
-		speaker = 1;
-	}
-
-	else if(speaker == 1){
-		__HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1,0);
-		speaker = 0;
-	}
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "speaker: %d\r", speaker), 1000);
 }
 //void Print_Time()
 //{
@@ -157,6 +160,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_USART2_UART_Init(void);
+static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -173,7 +177,7 @@ static void MX_USART2_UART_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	Print_HELLO();
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -196,11 +200,10 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM2_Init();
   MX_USART2_UART_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 //  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
   HAL_TIM_Base_Start_IT (& htim2 ) ;
-  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -337,6 +340,65 @@ static void MX_TIM2_Init(void)
 }
 
 /**
+  * @brief TIM3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM3_Init(void)
+{
+
+  /* USER CODE BEGIN TIM3_Init 0 */
+
+  /* USER CODE END TIM3_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM3_Init 1 */
+
+  /* USER CODE END TIM3_Init 1 */
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 63;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 65535;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM3_Init 2 */
+
+  /* USER CODE END TIM3_Init 2 */
+  HAL_TIM_MspPostInit(&htim3);
+
+}
+
+/**
   * @brief USART2 Initialization Function
   * @param None
   * @retval None
@@ -383,10 +445,10 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, Led_1_Pin|ledpb_Pin|led1a_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, ledpa_Pin|led1b_Pin|led2b_Pin|led2a_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, ledpa_Pin|led1b_Pin|led2b_Pin|led2a_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, ledpb_Pin|led1a_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PA0 */
   GPIO_InitStruct.Pin = GPIO_PIN_0;
@@ -398,13 +460,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pin = button_1_Pin|button_2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : Led_1_Pin ledpb_Pin led1a_Pin */
-  GPIO_InitStruct.Pin = Led_1_Pin|ledpb_Pin|led1a_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : button_3_Pin button_p_Pin */
@@ -419,6 +474,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : ledpb_Pin led1a_Pin */
+  GPIO_InitStruct.Pin = ledpb_Pin|led1a_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 }
 

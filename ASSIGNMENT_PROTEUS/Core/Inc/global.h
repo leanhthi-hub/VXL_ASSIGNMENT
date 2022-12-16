@@ -14,6 +14,8 @@
 
 #define STOP 0
 
+#define TIME_RED 2000
+#define TIME_GREEN 1700
 
 #define AUTO_RED 1
 #define AUTO_GREEN 2
