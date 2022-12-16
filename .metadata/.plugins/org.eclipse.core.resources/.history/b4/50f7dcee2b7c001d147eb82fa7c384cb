@@ -45,7 +45,7 @@ int RED_TIME=TIME_RED;
 int timer=0;
 int GREEN_TIME = TIME_GREEN;
 int timer2=0;
-int YELLOW_TIME = TIME_RED - TIME_GREEN;
+int YELLOW_TIME = RED_TIME-GREEN_TIME;
 int timer3=0;
 int TIME_OUT=1000;
 /* USER CODE END Includes */
@@ -177,7 +177,7 @@ static void MX_TIM3_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	Print_HELLO();
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/

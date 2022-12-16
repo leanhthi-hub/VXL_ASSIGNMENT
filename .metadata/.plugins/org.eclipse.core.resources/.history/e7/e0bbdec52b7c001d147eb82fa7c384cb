@@ -41,11 +41,11 @@ int status1 = Waiting;
 int status2 = Waiting;
 int status4 = Waiting;
 int status3 = INIT;
-int RED_TIME=TIME_RED;
+int RED_TIME=1000;
 int timer=0;
-int GREEN_TIME = TIME_GREEN;
+int GREEN_TIME=700;
 int timer2=0;
-int YELLOW_TIME = TIME_RED - TIME_GREEN;
+int YELLOW_TIME=300;
 int timer3=0;
 int TIME_OUT=1000;
 /* USER CODE END Includes */
@@ -177,7 +177,7 @@ static void MX_TIM3_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	Print_HELLO();
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
