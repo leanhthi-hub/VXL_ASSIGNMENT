@@ -1,23 +1,29 @@
-16:46:06 **** Build of configuration Debug for project ASSIGNMENT_FINAL ****
+13:19:23 **** Incremental Build of configuration Debug for project ASSIGNMENT_FINAL ****
 make -j8 all 
+arm-none-eabi-gcc "../Core/Src/fsm.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/fsm.d" -MT"Core/Src/fsm.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/fsm.o"
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/fsm.c: In function 'fsm_automatic_run3':
+../Core/Src/fsm.c:384:5: warning: implicit declaration of function 'setTimerOut1'; did you mean 'setTimer3'? [-Wimplicit-function-declaration]
+  384 |     setTimerOut1(TIME_OUT);
+      |     ^~~~~~~~~~~~
+      |     setTimer3
 arm-none-eabi-gcc -o "ASSIGNMENT_FINAL.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\taitr\OneDrive\Documents\MCU\VXL_ASSIGNMENT\ASSIGNMENT_FINAL\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ASSIGNMENT_FINAL.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: ASSIGNMENT_FINAL.elf
  
 arm-none-eabi-size   ASSIGNMENT_FINAL.elf 
 arm-none-eabi-objdump -h -S  ASSIGNMENT_FINAL.elf  > "ASSIGNMENT_FINAL.list"
-   text	   data	    bss	    dec	    hex	filename
-  17800	    152	   2720	  20672	   50c0	ASSIGNMENT_FINAL.elf
 arm-none-eabi-objcopy  -O ihex  ASSIGNMENT_FINAL.elf  "ASSIGNMENT_FINAL.hex"
 arm-none-eabi-objcopy  -O binary  ASSIGNMENT_FINAL.elf  "ASSIGNMENT_FINAL.bin"
+   text	   data	    bss	    dec	    hex	filename
+  17808	    152	   2696	  20656	   50b0	ASSIGNMENT_FINAL.elf
 Finished building: default.size.stdout
  
-Finished building: ASSIGNMENT_FINAL.hex
 Finished building: ASSIGNMENT_FINAL.bin
+Finished building: ASSIGNMENT_FINAL.hex
  
  
 Finished building: ASSIGNMENT_FINAL.list
  
 
-16:46:13 Build Finished. 0 errors, 0 warnings. (took 6s.946ms)
+13:19:25 Build Finished. 0 errors, 1 warnings. (took 1s.683ms)
 

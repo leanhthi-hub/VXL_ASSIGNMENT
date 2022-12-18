@@ -9,6 +9,7 @@
 #include "input_reading.h"
 
 #define DURATION_FOR_AUTO_DECREASING 	100
+#define DURATION_FOR_HOLDING			300
 #define BUTTON_IS_PRESSED				GPIO_PIN_RESET
 #define BUTTON_IS_RELEASED				GPIO_PIN_SET
 
@@ -63,7 +64,7 @@ void button_reading()
 				buttonBuffer[i] = debounceButtonBuffer2[i];
 				if(buttonBuffer[i] == BUTTON_IS_PRESSED)
 				{
-					counterForButtonPress1s[i] = DURATION_FOR_AUTO_DECREASING;
+					counterForButtonPress1s[i] = DURATION_FOR_HOLDING;
 					subkeyProcess(i);
 				}
 			}

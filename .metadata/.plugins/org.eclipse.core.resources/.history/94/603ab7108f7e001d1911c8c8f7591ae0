@@ -1,0 +1,71 @@
+/*
+ * global.c
+ *
+ *  Created on: Sep 30, 2022
+ *      Author: thi
+ */
+#include "global.h"
+
+void Print_HELLO()
+{
+	char str[30];
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "HELLO\r"), 1000);
+}
+void Print_TimeOut(int abc){
+	char str[30];
+	int temp;
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "timeout: %d\r", temp), 1000);
+}
+void Print_TimeP(int abc){
+	char str[30];
+	int temp;
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_P: %d\r", temp), 1000);
+}
+void Print_Mode(int abc){
+	char str[30];
+	int temp;
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "Mode: %d\r", temp), 1000);
+}
+void Print_Time(int abc){
+	char str[30];
+	int temp;
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time: %d\r", temp), 1000);
+}
+void Print_Time1(int abc){
+	char str[30];
+	int temp;
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_1: %d\r", temp), 1000);
+}
+void Print_Time2(int abc){
+	char str[30];
+	int temp;
+	temp=abc;
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_2: %d\r", temp), 1000);
+}
+
+void off_Speaker(){
+		__HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1,0);
+		speaker = 0;
+}
+void toogle_Speaker(){
+	if(speaker == 0){
+		__HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1,910);
+		speaker = 1;
+	}
+	else if(speaker == 1){
+		__HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1,0);
+		speaker = 0;
+	}
+}
+void Print_ERROR(){
+	char str[30];
+	if(RED_TIME!=GREEN_TIME+YELLOW_TIME){
+		HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "ERROR 1 reset TIME\r"), 1000);
+		RED_TIME = GREEN_TIME + YELLOW_TIME;
+	}
+}

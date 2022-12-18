@@ -8,58 +8,57 @@
 #define OneSec 100
 #include "fsm.h"
 #include "main.h"
-//HAL_GPIO_WritePin(GPIOB, ledpa_Pin|led1b_Pin|led2b_Pin|led2a_Pin, GPIO_PIN_RESET);
-//HAL_GPIO_WritePin(GPIOA, ledpb_Pin|led1a_Pin, GPIO_PIN_RESET);
+
+#define ON GPIO_PIN_SET
+#define OFF GPIO_PIN_RESET
+
+
 void toogleRed(){
-	HAL_GPIO_WritePin(GPIOA,led1a_Pin, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOB,led1b_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOA,led1a_Pin, ON);
+	HAL_GPIO_WritePin(GPIOB,led1b_Pin, OFF);
 }
 void toogleGreen(){
-	HAL_GPIO_WritePin(GPIOA,led1a_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOB,led1b_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOA,led1a_Pin, OFF);
+	HAL_GPIO_WritePin(GPIOB,led1b_Pin, ON);
 }
 void toogleYellow(){
-	HAL_GPIO_WritePin(GPIOA,led1a_Pin, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOB,led1b_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOA,led1a_Pin, ON);
+	HAL_GPIO_WritePin(GPIOB,led1b_Pin, ON);
 }
 void toogleRed1(){
-	HAL_GPIO_WritePin(GPIOB,led2a_Pin, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOB,led2b_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB,led2a_Pin, ON);
+	HAL_GPIO_WritePin(GPIOB,led2b_Pin, OFF);
 }
 void toogleGreen1(){
-	HAL_GPIO_WritePin(GPIOB,led2a_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOB,led2b_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB,led2a_Pin, OFF);
+	HAL_GPIO_WritePin(GPIOB,led2b_Pin, ON);
 }
 void toogleYellow1(){
-	HAL_GPIO_WritePin(GPIOB,led2a_Pin, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOB,led2b_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB,led2a_Pin, ON);
+	HAL_GPIO_WritePin(GPIOB,led2b_Pin, ON);
 }
 void redP(){
-	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, ON);
+	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, OFF);
 }
 void greenP(){
-	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, OFF);
+	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, ON);
 }
 void offP(){
-	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB,ledpa_Pin, OFF);
+	HAL_GPIO_WritePin(GPIOA,ledpb_Pin, OFF);
 }
 void fsm_automatic_run1(){
 	switch (status1	) {
 		case INIT:
 			status1 = AUTO_RED;
 			timer = RED_TIME/OneSec;
-//			setTimer1(RED_TIME);
-
 			break;
 		case AUTO_RED:
 			toogleRed();
-//			SCH_Add_Task(pFunction, DELAY, PERIOD)
 			if(timer==STOP){
 				status1 = AUTO_GREEN;
-//				setTimer1(GREEN_TIME);
 				timer=GREEN_TIME/OneSec;
 			}
 			break;
@@ -67,7 +66,6 @@ void fsm_automatic_run1(){
 			toogleGreen();
 			if(timer==STOP){
 				status1 = AUTO_YELLOW;
-//				setTimer1(YELLOW_TIME);
 				timer=YELLOW_TIME/OneSec;
 			}
 
@@ -77,7 +75,6 @@ void fsm_automatic_run1(){
 			toogleYellow();
 			if(timer==STOP){
 				status1 = AUTO_RED;
-//				setTimer1(RED_TIME);
 				timer=RED_TIME/OneSec;
 			}
 			break;
@@ -92,13 +89,11 @@ void fsm_automatic_run2(){
 		case INIT:
 			status2 = AUTO_GREEN;
 			timer2=GREEN_TIME/OneSec;
-//			setTimer2(GREEN_TIME);
 			break;
 		case AUTO_RED:
 			toogleRed1();
 			if(timer2==STOP){
 				status2 = AUTO_GREEN;
-//				setTimer2(GREEN_TIME);
 				timer2=GREEN_TIME/OneSec;
 			}
 			break;
@@ -106,7 +101,6 @@ void fsm_automatic_run2(){
 			toogleGreen1();
 			if(timer2==STOP){
 				status2 = AUTO_YELLOW;
-//				setTimer2(YELLOW_TIME);
 				timer2=YELLOW_TIME/OneSec;
 			}
 
@@ -116,10 +110,8 @@ void fsm_automatic_run2(){
 			toogleYellow1();
 			if(timer2==STOP){
 				status2 = AUTO_RED;
-//				setTimer2(RED_TIME);
 				timer2=RED_TIME/OneSec;
 			}
-
 			break;
 		default:
 			break;
@@ -129,47 +121,26 @@ void fsm_p(){
 	switch (status4) {
 		case INIT:
 			status4=Waiting;
-//			setTimerOut2(1);
 			timer3 = 0;
-//			Print_HELLO();
 			offP();
 			off_Speaker();
 			break;
 		case Waiting:
-//			Print_HELLO();
-//			offP();
-//			HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_RESET);
-//			HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_SET);
-//			redP();
 			break;
 		case P_RED://----------------------------------------
 			redP();
-//			if( timer3_flag == 1) {
-//				Print_Mode(P_RED);
-//				Print_TimeOut(timer3);
-//				timer3--;
-//				setTimer3 (OneSec) ;
-////					Print_HELLO();
-//				}
-//			Print_HELLO();
 			if(timer3==STOP){
-//				setTimerOut2(RED_TIME);
 				status4=P_GREEN;
 				timer3 = RED_TIME/OneSec-1;
 				offP();
 				setTimer3 (1);
-//				break;
 				}
 			break;
 		case P_GREEN:
 			greenP();
 			if( timer3_flag == 1) {
-//				Print_Mode(P_GREEN);
-//				Print_TimeOut(timer3);
-//				timer3--;
 				toogle_Speaker();
 				setTimer3 (timer3*4) ;
-////					Print_HELLO();
 				}
 			if(timer3==STOP){
 				status4=INIT;
@@ -183,7 +154,6 @@ void fsm_automatic_run3(){
 	switch (status3	) {
 		case RUNNING:
 			if( timer0_flag == 1) {
-//				Pri
 				Print_Time1(timer);
 				Print_Time2(timer2);
 				timer--;
@@ -194,7 +164,6 @@ void fsm_automatic_run3(){
 					timer3--;
 				}
 				setTimer0 (OneSec);
-//					Print_HELLO();
 				}
 			if(button_flag[0]==1){
 				button_flag[0]=0;
@@ -205,15 +174,12 @@ void fsm_automatic_run3(){
 				setTimer0(OneSec);
 				timer = MAN_RED;
 				timer2=RED_TIME/OneSec;
-//				setTimerOut1(TIME_OUT);
 				timer3= TIME_OUT/OneSec;
 			}
 			if(button_flag[1]==1)
 			{
 				button_flag[1] = 0;
 				Print_HELLO();
-//				HAL_GPIO_WritePin(GPIOB,ledpa_Pin, GPIO_PIN_RESET);
-//				HAL_GPIO_WritePin(GPIOA,ledpb_Pin, GPIO_PIN_SET);
 				switch (status1) {
 					case AUTO_RED:
 						status3 = HAND_GREEN;
@@ -228,7 +194,6 @@ void fsm_automatic_run3(){
 						break;
 				}
 				setTimer0 (OneSec);
-//				setTimerOut1(TIME_OUT);
 				timer=TIME_OUT/OneSec;
 				status1 = Waiting;
 				status2 = Waiting;
@@ -237,44 +202,35 @@ void fsm_automatic_run3(){
 			}
 			if(button_flag[3]==1){
 				button_flag[3]=0;
-				if(status1== AUTO_RED){//oke
+				if(status1== AUTO_RED){
 					status4=P_GREEN;
-//					redP();
-//					setTimerOut2(1000);
 					setTimer3(OneSec);
 					timer3=timer;
 				}
-				if(status1== AUTO_GREEN){//notoke
+				if(status1== AUTO_GREEN){
 					status4=P_RED;
-//					redP();
-//					setTimerOut2(timer*100+YELLOW_TIME);
 					setTimer3(OneSec);
 					timer3=timer+YELLOW_TIME/OneSec;
 				}
-				if(status1== AUTO_YELLOW){//notoke
+				if(status1== AUTO_YELLOW){
 					status4=P_RED;
 					offP();
-//					setTimer2(timer*100);
 					setTimer3(OneSec);
 					timer3=timer;
 				}
 				Print_HELLO();
 			}
 			break;
-
 		case INIT:
 			Print_Mode(INIT);
+			offP();
 			Print_ERROR();
-//			setTimerOut1(1);
 			timer3=0;
 			setTimer0(OneSec);
 			status1=INIT;
 			status2=INIT;
 			status4=INIT;
 			status3=RUNNING;
-
-
-
 			break;
 		case MAN_RED:
 			toogleRed();
@@ -294,7 +250,6 @@ void fsm_automatic_run3(){
 				timer = MAN_GREEN;
 				status3=MAN_GREEN;
 				setTimer0 (OneSec);
-//				setTimerOut1(TIME_OUT);
 				timer3= TIME_OUT/OneSec;
 			}
 			if(button_flag[1]==1){
@@ -310,7 +265,6 @@ void fsm_automatic_run3(){
 			}
 			break;
 		case MAN_GREEN:
-
 			if( timer0_flag == 1) {
 				Print_Mode(timer);
 				Print_Time(timer2);
@@ -321,7 +275,6 @@ void fsm_automatic_run3(){
 			toogleGreen();
 			toogleGreen1();
 			if(timer2>99)timer2=0;
-
 			GREEN_TIME=timer2*100;
 			if(button_flag[0]==1){
 				button_flag[0]=0;
@@ -329,7 +282,6 @@ void fsm_automatic_run3(){
 				status3=MAN_YELLOW;
 				timer = MAN_YELLOW;
 				setTimer0(OneSec);
-//				setTimerOut1(TIME_OUT);
 				timer3= TIME_OUT/OneSec;
 			}
 			if(button_flag[1]==1){
@@ -386,7 +338,6 @@ void fsm_automatic_run3(){
 				button_flag[1]=0;
 				status3=HAND_GREEN;
 				setTimer0 (OneSec);
-//				setTimerOut1(TIME_OUT);
 				timer=TIME_OUT/OneSec;
 			}
 			if(timer==STOP){
@@ -394,6 +345,7 @@ void fsm_automatic_run3(){
 			}
 			 toogleGreen1();
 			 toogleRed();
+			 greenP();
 			break;
 		case HAND_GREEN:
 
@@ -408,7 +360,6 @@ void fsm_automatic_run3(){
 				button_flag[1]=0;
 				status3=HAND_YELLOW;
 				setTimer0 (OneSec);
-				setTimerOut1(TIME_OUT);
 				timer=TIME_OUT/OneSec;
 			}
 			if(timer==STOP){
@@ -416,6 +367,7 @@ void fsm_automatic_run3(){
 			}
 			toogleRed1();
 			toogleGreen();
+			redP();
 			break;
 		case HAND_YELLOW:
 			if(timer0_flag == 1) {
@@ -428,7 +380,6 @@ void fsm_automatic_run3(){
 				button_flag[1]=0;
 				status3=HAND_RED;
 				setTimer0 (OneSec);
-				setTimerOut1(TIME_OUT);
 				timer=TIME_OUT/OneSec;
 			}
 			if(timer==STOP){
@@ -436,8 +387,8 @@ void fsm_automatic_run3(){
 			}
 			toogleRed1();
 			toogleYellow();
+			redP();
 			break;
-
 		default:
 			break;
 	}

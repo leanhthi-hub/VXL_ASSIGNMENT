@@ -24,23 +24,19 @@
 /* USER CODE BEGIN Includes */
 #include "scheduler.h"
 #include "global.h"
-//#include "input_processing.h"
 #include "input_reading.h"
-//#include "updateClockBuffer.h"
-//#include "Update7Seg.h"
 #include "timer.h"
 #include "fsm.h"
 #include <stdio.h>
 
-const int MAX_LED = 4;
-int index_led = 0;
-int led_buffer [4];
-int second,second1;
 
 int status1 = Waiting;
 int status2 = Waiting;
 int status4 = Waiting;
 int status3 = INIT;
+
+int speaker = 0;
+
 int RED_TIME=TIME_RED;
 int timer=0;
 int GREEN_TIME = TIME_GREEN;
@@ -76,10 +72,6 @@ void Print_HELLO()
 	char str[30];
 	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "HELLO\r"), 1000);
 }
-//void Toggle_led()
-//{
-//	HAL_GPIO_TogglePin(GPIOA, Led_1_Pin);
-//}
 void Print_TimeOut(int abc){
 	char str[30];
 	int temp;
@@ -116,9 +108,8 @@ void Print_Time2(int abc){
 	temp=abc;
 	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_2: %d\r", temp), 1000);
 }
-int speaker = 0;
-void off_Speaker(){
 
+void off_Speaker(){
 		__HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1,0);
 		speaker = 0;
 }
@@ -134,25 +125,12 @@ void toogle_Speaker(){
 }
 void Print_ERROR(){
 	char str[30];
-//	int temp;
-//	temp=abc;
 	if(RED_TIME!=GREEN_TIME+YELLOW_TIME){
 		HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "ERROR 1 reset TIME\r"), 1000);
 		RED_TIME = GREEN_TIME + YELLOW_TIME;
 	}
 }
-//void Print_Time()
-//{
-//	char str[30];
-//	int temp;
-//	temp=timer;
-//	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time1: %d\r", temp), 1000);
-//	temp = timer2;
-//	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time2: %d\r", temp), 1000);
-//	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "-----\r"), 1000);
-//	HAL_UART_Transmit(&huart2, (void*)str, sprintf("%c%c%c%c",0x1B,0x5B,0x32,0x4A), 1000);
 
-//}
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -208,34 +186,15 @@ int main(void)
   /* USER CODE END 2 */
 
   /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-//  HAL_GPIO_WritePin(GPIOB, ledpa_Pin|led1b_Pin|led2b_Pin|led2a_Pin, GPIO_PIN_RESET);
-//  HAL_GPIO_WritePin(GPIOA, ledpb_Pin|led1a_Pin, GPIO_PIN_RESET);\char str[30];
 
-//  Print_HELLO();
   SCH_Init();
-//  Print_HELLO();
-//  SCH_Add_Task(Toggle_led, 10, 500);
-//  SCH_Add_Task(Print_HELLO, 10, 1000);
-  setTimer0(100);
-//  setTimer1(2);
-//  setTimer2(3);
-  setTimer3(100);
-//  setTimerOut1(1);
-//  setTimerOut1(2);
+  setTimer0(10);
+  setTimer3(10);
+
 
 
   SCH_Add_Task(timerRun0, 20, 10);
-//  SCH_Add_Task(timerRun1, 20, 10);
-//  SCH_Add_Task(timerRun2, 20, 10);
   SCH_Add_Task(timerRun3, 20, 10);
-//
-//  SCH_Add_Task(timerOut1, 20, 10);
-//  SCH_Add_Task(timerOut2, 20, 10);
-
-
-//  SCH_Add_Task(Print_Time, 10, 990);
-
   SCH_Add_Task(button_reading, 10, 10);
 
   SCH_Add_Task(fsm_automatic_run1, 20, 10);
