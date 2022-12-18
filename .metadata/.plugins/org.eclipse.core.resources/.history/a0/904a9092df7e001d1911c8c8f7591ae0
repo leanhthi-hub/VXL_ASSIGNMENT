@@ -334,6 +334,7 @@ void fsm_automatic_run3(){
 				Print_TimeOut(timer);
 				setTimer0 (OneSec) ;
 			}
+
 			if(button_flag[1]==1){
 				button_flag[1]=0;
 				status3=HAND_GREEN;
@@ -360,15 +361,10 @@ void fsm_automatic_run3(){
 				Print_TimeOut(timer);
 				setTimer0 (OneSec) ;
 				}
+
 			if(button_flag[1]==1){
 				button_flag[1]=0;
 				status3=HAND_YELLOW;
-				setTimer0 (OneSec);
-				timer=TIME_OUT/OneSec;
-			}
-			if(button_flag[2]==1){
-				button_flag[2]=0;
-				status3=HAND_RED;
 				setTimer0 (OneSec);
 				timer=TIME_OUT/OneSec;
 			}
@@ -389,12 +385,6 @@ void fsm_automatic_run3(){
 			if(button_flag[1]==1){
 				button_flag[1]=0;
 				status3=HAND_RED;
-				setTimer0 (OneSec);
-				timer=TIME_OUT/OneSec;
-			}
-			if(button_flag[2]==1){
-				button_flag[2]=0;
-				status3=HAND_GREEN;
 				setTimer0 (OneSec);
 				timer=TIME_OUT/OneSec;
 			}
