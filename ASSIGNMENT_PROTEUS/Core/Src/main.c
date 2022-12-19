@@ -29,6 +29,7 @@
 #include "fsm.h"
 #include <stdio.h>
 
+
 int status1 = Waiting;
 int status2 = Waiting;
 int status4 = Waiting;
@@ -69,43 +70,43 @@ UART_HandleTypeDef huart2;
 void Print_HELLO()
 {
 	char str[30];
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "HELLO\r"), 1000);
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "HELLO\n\r"), 1000);
 }
 void Print_TimeOut(int abc){
 	char str[30];
 	int temp;
 	temp=abc;
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "timeout: %d\r", temp), 1000);
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "timeout: %d\n\r", temp), 1000);
 }
 void Print_TimeP(int abc){
 	char str[30];
 	int temp;
 	temp=abc;
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_P: %d\r", temp), 1000);
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_P: %d\n\r", temp), 1000);
 }
 void Print_Mode(int abc){
 	char str[30];
 	int temp;
 	temp=abc;
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "Mode: %d\r", temp), 1000);
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "Mode: %d\n\r", temp), 1000);
 }
 void Print_Time(int abc){
 	char str[30];
 	int temp;
 	temp=abc;
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time: %d\r", temp), 1000);
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time: %d\n\r", temp), 1000);
 }
 void Print_Time1(int abc){
 	char str[30];
 	int temp;
 	temp=abc;
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_1: %d\r", temp), 1000);
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_1: %d\n\r", temp), 1000);
 }
 void Print_Time2(int abc){
 	char str[30];
 	int temp;
 	temp=abc;
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_2: %d\r", temp), 1000);
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_2: %d\n\r", temp), 1000);
 }
 
 void off_Speaker(){
@@ -125,7 +126,7 @@ void toogle_Speaker(){
 void Print_ERROR(){
 	char str[30];
 	if(RED_TIME!=GREEN_TIME+YELLOW_TIME){
-		HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "ERROR 1 reset TIME\r"), 1000);
+		HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "ERROR 1 reset TIME\n\r"), 1000);
 		RED_TIME = GREEN_TIME + YELLOW_TIME;
 	}
 }
@@ -154,7 +155,7 @@ static void MX_TIM3_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	Print_HELLO();
+//	Print_HELLO();
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -202,13 +203,9 @@ int main(void)
   SCH_Add_Task(fsm_p, 20, 10);
 
 
-//  SCH_Add_Task(timerRun0, 0, 10);
-//  SCH_Add_Task(timerRun0, 0, 10);
   while (1)
   {
-//		 fsm_automatic_run1();
-//		 fsm_automatic_run2();
-//		 fsm_automatic_run3();
+
 	  SCH_Dispatch_Tasks();
 
     /* USER CODE END WHILE */
@@ -400,25 +397,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, ledpa_Pin|led1b_Pin|led2b_Pin|led2a_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, ledpb_Pin|led1a_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin : PC13 */
-  GPIO_InitStruct.Pin = GPIO_PIN_13;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PA0 */
   GPIO_InitStruct.Pin = GPIO_PIN_0;

@@ -8,6 +8,6 @@ fsm.c:41:6:redP	8	static
 fsm.c:45:6:greenP	8	static
 fsm.c:49:6:offP	8	static
 fsm.c:53:6:fsm_automatic_run1	8	static
-fsm.c:88:6:fsm_automatic_run2	8	static
-fsm.c:121:6:fsm_p	8	static
-fsm.c:154:6:fsm_automatic_run3	8	static
+fsm.c:86:6:fsm_automatic_run2	8	static
+fsm.c:119:6:fsm_p	8	static
+fsm.c:152:6:fsm_automatic_run3	8	static
