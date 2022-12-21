@@ -9,10 +9,10 @@ main.c:112:6:off_Speaker	4	static
 main.c:116:6:toogle_Speaker	4	static
 main.c:126:6:Print_ERROR	40	static
 main.c:155:5:main	8	static
-main.c:226:6:SystemClock_Config	72	static
-main.c:262:13:MX_TIM2_Init	32	static
-main.c:307:13:MX_TIM3_Init	64	static
-main.c:366:13:MX_USART2_UART_Init	8	static
-main.c:399:13:MX_GPIO_Init	32	static
-main.c:462:6:HAL_TIM_PeriodElapsedCallback	16	static
-main.c:474:6:Error_Handler	4	static,ignoring_inline_asm
+main.c:222:6:SystemClock_Config	72	static
+main.c:258:13:MX_TIM2_Init	32	static
+main.c:303:13:MX_TIM3_Init	64	static
+main.c:362:13:MX_USART2_UART_Init	8	static
+main.c:395:13:MX_GPIO_Init	32	static
+main.c:458:6:HAL_TIM_PeriodElapsedCallback	16	static
+main.c:469:6:Error_Handler	4	static,ignoring_inline_asm

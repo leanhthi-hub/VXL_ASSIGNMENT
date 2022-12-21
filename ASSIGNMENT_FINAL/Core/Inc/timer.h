@@ -15,8 +15,8 @@ extern int timer3_flag;
 void setTimer0(int duration);
 void setTimer3(int duration);
 
-void timerRun0();
-void timerRun3();
+void timerRun0();//use for timer per sec
+void timerRun3();//use for timer of P_MODE speaker
 
 
 #endif /* INC_TIMER_H_ */

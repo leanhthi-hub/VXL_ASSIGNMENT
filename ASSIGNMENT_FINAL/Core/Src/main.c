@@ -70,43 +70,43 @@ UART_HandleTypeDef huart2;
 void Print_HELLO()
 {
 	char str[30];
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "HELLO\r"), 1000);
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "HELLO\n\r"), 1000);
 }
 void Print_TimeOut(int abc){
 	char str[30];
 	int temp;
 	temp=abc;
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "timeout: %d\r", temp), 1000);
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "timeout: %d\n\r", temp), 1000);
 }
 void Print_TimeP(int abc){
 	char str[30];
 	int temp;
 	temp=abc;
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_P: %d\r", temp), 1000);
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_P: %d\n\r", temp), 1000);
 }
 void Print_Mode(int abc){
 	char str[30];
 	int temp;
 	temp=abc;
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "Mode: %d\r", temp), 1000);
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "Mode: %d\n\r", temp), 1000);
 }
 void Print_Time(int abc){
 	char str[30];
 	int temp;
 	temp=abc;
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time: %d\r", temp), 1000);
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time: %d\n\r", temp), 1000);
 }
 void Print_Time1(int abc){
 	char str[30];
 	int temp;
 	temp=abc;
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_1: %d\r", temp), 1000);
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_1: %d\n\r", temp), 1000);
 }
 void Print_Time2(int abc){
 	char str[30];
 	int temp;
 	temp=abc;
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_2: %d\r", temp), 1000);
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "time_2: %d\n\r", temp), 1000);
 }
 
 void off_Speaker(){
@@ -126,7 +126,7 @@ void toogle_Speaker(){
 void Print_ERROR(){
 	char str[30];
 	if(RED_TIME!=GREEN_TIME+YELLOW_TIME){
-		HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "ERROR 1 reset TIME\r"), 1000);
+		HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "ERROR 1 reset TIME\n\r"), 1000);
 		RED_TIME = GREEN_TIME + YELLOW_TIME;
 	}
 }
@@ -155,7 +155,7 @@ static void MX_TIM3_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	Print_HELLO();
+//	Print_HELLO();
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/

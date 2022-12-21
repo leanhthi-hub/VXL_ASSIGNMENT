@@ -69,8 +69,6 @@ void fsm_automatic_run1(){
 				status1 = AUTO_YELLOW;
 				timer=YELLOW_TIME/OneSec;
 			}
-
-
 			break;
 		case AUTO_YELLOW:
 			toogleYellow();
@@ -153,20 +151,23 @@ void fsm_p(){
 }
 void fsm_automatic_run3(){
 	switch (status3	) {
-		case RUNNING:
+		case RUNNING://AUTOMATIC MODE MAIN FSM
 			if( timer0_flag == 1) {
-				Print_Time1(timer);
-				Print_Time2(timer2);
-				timer--;
-				timer2--;
-				if(status4==P_RED||status4==P_GREEN){
+				Print_Time1(timer);//TIMER FOR LED 1
+				Print_Time2(timer2);//TIMER FOR LED 2
+				timer--;//IF timer == 0 fsm1 will change status and set timer again
+				timer2--;// timer for fsm2 work like timer
+				if(status4==P_RED||status4==P_GREEN){//when P_mode is enable it will cout down timer for P_mode
 					Print_Mode(status4);
 					Print_TimeOut(timer3);
-					timer3--;
+					timer3--;//if timer == 0 P_mode will change status form red to green and set timer again or disable P_mode
 				}
 				setTimer0 (OneSec);
 				}
-			if(button_flag[0]==1){
+			if(button_flag[0]==1){// button 1 turn MAIN FSM to manual mode to adjust time for AUTOMATIC
+								//It will turn FSM1 FSM2 to waiting
+								//when change status it will use timer for MODE. timer2 for time of this mode
+								//it will enable timer 3 for timeOut
 				button_flag[0]=0;
 				status1=Waiting;
 				status2=Waiting;
@@ -177,7 +178,8 @@ void fsm_automatic_run3(){
 				timer2=RED_TIME/OneSec;
 				timer3= TIME_OUT/OneSec;
 			}
-			if(button_flag[1]==1)
+			if(button_flag[1]==1)//button 2 turn MAIN FSM to HAND mode to turn led by RED_GREEN_YELLOW
+								//FSM will use timer for timeOut
 			{
 				button_flag[1] = 0;
 				Print_HELLO();
@@ -199,9 +201,8 @@ void fsm_automatic_run3(){
 				status1 = Waiting;
 				status2 = Waiting;
 				status4 = Waiting;
-
 			}
-			if(button_flag[3]==1){
+			if(button_flag[3]==1){//button 3 enable P_MOde
 				button_flag[3]=0;
 				if(status1== AUTO_RED){
 					status4=P_GREEN;
@@ -219,13 +220,12 @@ void fsm_automatic_run3(){
 					setTimer3(OneSec);
 					timer3=timer;
 				}
-				Print_HELLO();
 			}
 			break;
 		case INIT:
 			Print_Mode(INIT);
 			offP();
-			Print_ERROR();
+			Print_ERROR();// check if RED_TIME == GREEN_TIME + YELLOW_TIME
 			timer3=0;
 			setTimer0(OneSec);
 			status1=INIT;
@@ -255,10 +255,12 @@ void fsm_automatic_run3(){
 			}
 			if(button_flag[1]==1){
 				button_flag[1]=0;
+				timer3= TIME_OUT/OneSec;
 				timer2++;
 			}
 			if(button_flag[2]==1){
 				button_flag[2]=0;
+				timer3= TIME_OUT/OneSec;
 				timer2--;
 			}
 			if(timer3==STOP){
@@ -287,10 +289,12 @@ void fsm_automatic_run3(){
 			}
 			if(button_flag[1]==1){
 				button_flag[1]=0;
+				timer3= TIME_OUT/OneSec;
 				timer2++;
 			}
 			if(button_flag[2]==1){
 				button_flag[2]=0;
+				timer3= TIME_OUT/OneSec;
 				timer2--;
 			}
 			if(timer3==STOP){
@@ -318,10 +322,12 @@ void fsm_automatic_run3(){
 			if(button_flag[1]==1){
 				button_flag[1]=0;
 				timer2++;
+				timer3= TIME_OUT/OneSec;
 			}
 			if(button_flag[2]==1){
 				button_flag[2]=0;
 				timer2--;
+				timer3= TIME_OUT/OneSec;
 			}
 			if(timer3==STOP){
 				status3=INIT;
